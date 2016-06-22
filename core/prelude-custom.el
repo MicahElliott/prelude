@@ -72,6 +72,7 @@ personal folder.  This variable allows you to specify a specific
 folder as the one that should be visited when running
 `prelude-find-user-init-file'.  This can be easily set to the desired buffer
 in lisp by putting `(setq prelude-user-init-file load-file-name)'
+
 in the desired elisp file."
   :type 'string
   :group 'prelude)
