@@ -57,6 +57,7 @@
     diff-hl
     diminish
     easy-kill
+    editorconfig
     epl
     expand-region
     flycheck
