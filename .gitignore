@@ -23,3 +23,5 @@ tramp
 /var/pcache
 .emacs.desktop
 .emacs.desktop.lock
+.#tramp
+.mc-lists.el
