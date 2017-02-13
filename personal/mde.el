@@ -4,37 +4,96 @@
 ;; Personal config instructions:
 ;; https://github.com/bbatsov/prelude/issues/596
 
+;; Process for updating:
+;; https://help.github.com/articles/syncing-a-fork/
+;; git fetch upstream
+;; git pull upstream master
+
 ;;; Code:
 
-(setq inhibit-startup-message nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Libraries
+
+;; f, Modern API for working with files and directories in Emacs
+;; (used in one of magnars' snippets)
+;; https://github.com/rejeep/f.el
+(prelude-require-package 'f)
+(require 'f)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Look-n-Feel
+
+;; Stop Emacs from processing .Xresources/.Xdefaults
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Resources.html#Resources
+(setq inhibit-x-resources t)
 
 ;; http://stackoverflow.com/questions/22898244/
 ;; (eval-when-compile (defvar prelude-mode-map))
+(defvar prelude-mode-map)
 
-(prelude-require-package 'tangotango-theme)
-(load-theme 'tangotango t t)
-(enable-theme 'tangotango)
+;; No splash screen
+;; (setq inhibit-startup-message nil)
+(setq inhibit-startup-message nil)
+(setq inhibit-startup-screen nil)
+(setq inhibit-splash-screen nil)
 
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(prelude-require-package 'smart-mode-line-powerline-theme)
 
-(show-paren-mode 1)
+(prelude-require-package 'dashboard)
+(dashboard-setup-startup-hook)
+
+;; (prelude-require-package 'tangotango-theme)
+;; (load-theme 'tangotango t t)
+;; (enable-theme 'tangotango)
+(prelude-require-package 'monokai-theme)
+(load-theme 'monokai t t)
+(enable-theme 'monokai)
+
+;; Theme overrides
+;; (set-face-attribute 'region nil :background "#999")
+
+;; (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(setq scroll-bar-width 3)
+
+;; https://www.emacswiki.org/emacs/HighlightCurrentColumn
+;; (prelude-require-package 'smooth-scrolling)
+;; (smooth-scrolling-mode t)
+;; (defun gcm-scroll-down () (interactive) (scroll-up 1))
+;; (defun gcm-scroll-up () (interactive) (scroll-down 1))
+;; (global-set-key [(control down)] 'gcm-scroll-down)
+;; (global-set-key [(control up)]   'gcm-scroll-up)
 
 
-(prelude-require-package 'exec-path-from-shell)
-(prelude-require-package 'shrink-whitespace)
+;; Seems prelude already does this??
+;; (show-paren-mode 1)
 
-(prelude-require-package 'unfill)
-;; (define-key prelude-mode-map "\M-\S-q" nil)
-(define-key prelude-mode-map "\M-Q" nil)
-(global-set-key (kbd "M-Q") 'unfill-paragraph)
-;; (global-set-key (kbd "M-S-q") 'unfill-paragraph)
+;; Highlight word matching point without doing anything
+;; https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el
+(prelude-require-package 'idle-highlight-mode)
+;; (idle-highlight-mode t)
+(add-hook 'prog-mode-hook 'idle-highlight-mode)
+(add-hook 'text-mode-hook 'idle-highlight-mode)
 
-(prelude-require-package 'langtool)
+;; Highlight the point column (see `col-highlight' in customize)
+;; (not really using)
+;; Not great since covers up mark markers, and funky with variable-width lines.
+;; (prelude-require-package 'crosshairs)
+;; (column-highlight-mode t)
 
-;; (define-key key-translation-map [?\C-h] [?\C-?])
-;; (global-set-key (kbd "C-S-h") 'backward-kill-word)
+;; Make the active window more visible than others
+;; https://github.com/yoshida-mediba/hiwin-mode
+;; Ugh, make cider repl go blank when switching out
+;; (prelude-require-package 'hiwin)
+;; (hiwin-activate)
+;; Set face color with customize
+;; (set-face-background 'hiwin-face "gray80")
 
-(require 'prelude-helm-everywhere)
+;; Disable discoloration of long lines (and other stuff)
+;; https://github.com/bbatsov/prelude#disabling-whitespace-mode
+;; Toggle these two lines and repoen a file
+(setq prelude-whitespace nil)
+;; (setq prelude-whitespace t)
 
 ;; (prelude-require-package 'linum-relative)
 ;; (require 'linum-relative)
@@ -45,15 +104,72 @@
 (prelude-require-package 'relative-line-numbers)
 (global-relative-line-numbers-mode)
 
-
-;;; Mark mode improvements
-
-(defface visible-mark-active ;; put this before (require 'visible-mark)
-  '((((type tty) (class mono)))
-    (t (:background "magenta"))) "")
+;; Make all the marks visible
+;; (defface visible-mark-active ;; put this before (require 'visible-mark)
+;;   '((((type tty) (class mono)))
+;;     (t (:background "magenta"))) "")
 (setq visible-mark-max 4)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2))
 (prelude-require-package 'visible-mark)
+(global-visible-mark-mode)
+
+;;; Rainbow Parens (already part of prelude?)
+(prelude-require-package 'rainbow-delimiters)
+;; (require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'superword-mode)
+
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Behavior
+
+(prelude-require-package 'yascroll)
+(global-yascroll-bar-mode 1)
+
+(prelude-require-package 'centered-cursor-mode)
+;; (global-centered-cursor-mode +1)
+
+;; Make Emacs use the $PATH set up by the user's shell
+(prelude-require-package 'exec-path-from-shell)
+
+;; Whitespace removal DWIM key for emacs.
+;; maybe use in future, not bound to anything
+;; https://github.com/jcpetkovich/shrink-whitespace.el
+(prelude-require-package 'shrink-whitespace)
+
+;; Inverse of Emacs' fill-paragraph and fill-region
+;; https://github.com/purcell/unfill
+;; http://stackoverflow.com/questions/6707758/inverse-of-m-q-an-unfill-paragraph-function
+(prelude-require-package 'unfill)
+;; (define-key prelude-mode-map "\M-\S-q" nil)
+(define-key prelude-mode-map "\M-Q" nil)
+(global-set-key (kbd "M-Q") 'unfill-paragraph)
+;; (global-set-key (kbd "M-S-q") 'unfill-paragraph)
+
+;; Spelling/grammar help
+;; https://github.com/mhayashi1120/Emacs-langtool
+(prelude-require-package 'langtool)
+
+;; (prelude-require-package 'bash-completion)
+;; (bash-completion-setup)
+;; (prelude-require-package 'zlc)
+;; (zlc-mode t)
+
+
+;; (define-key key-translation-map [?\C-h] [?\C-?])
+;; (global-set-key (kbd "C-S-h") 'backward-kill-word)
+
+;; (require 'prelude-helm-everywhere)
+
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"                 ;; personal snippets
+        ))
+(yas-global-mode 1)
+
+;;; Mark mode improvements
 
 ;; https://www.masteringemacs.org/article/fixing-mark-commands-transient-mark-mode
 ;; (setq transient-mark-mode nil)
@@ -71,25 +187,36 @@
   This is the same as using \\[set-mark-command] with the prefix argument."
   (interactive)
   (set-mark-command 1))
-(global-set-key (kbd "M-`") 'jump-to-mark)
+;; (global-set-key (kbd "M-`") 'jump-to-mark)
 
+;; WTF did I ever do this??
 (defun exchange-point-and-mark-no-activate ()
   "Identical to \\[exchange-point-and-mark] but will not activate the region."
   (interactive)
   (exchange-point-and-mark)
   (deactivate-mark nil))
-(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
+;; (define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
 
 ;; (prelude-require-package 'show-marks)
 ;; (prelude-require-package 'bm)
 ;; (prelude-require-package 'mark-tools)
 
 
+;; Don't want to suspend emacs!
+;; http://superuser.com/questions/349943/how-to-awake-emacs-gui-after-pressing-ctrlz#349997
 (global-unset-key (kbd "C-z"))
 
+;; Switch windows; lower case version is used in too many shells/menus
 (global-set-key (kbd "M-P") 'prev-window)
 (global-set-key (kbd "M-N") 'other-window)
 
+;; (prelude-require-package 'pretty-mode)
+;; (global-pretty-mode t)
+(global-prettify-symbols-mode t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Windowing
 
 ;; Fastest window switching: http://emacs.stackexchange.com/a/3471/11025
                                         ;(global-set-key (kbd "C-.") 'other-window)
@@ -103,18 +230,47 @@
 (global-set-key (kbd "C-x C-o") (lambda () (interactive) (other-window -1)))
 (global-set-key "\C-xO"    (lambda () (interactive) (delete-blank-lines)))
 
+
+;; Resize windows
+(define-key prelude-mode-map (kbd "S-<up>")  nil)
+(define-key prelude-mode-map (kbd "S-<down>")  nil)
+(define-key prelude-mode-map (kbd "S-<left>")  nil)
+(define-key prelude-mode-map (kbd "S-<right>")  nil)
+(global-set-key (kbd "S-<up>")     'shrink-window)
+(global-set-key (kbd "S-<down>")   'enlarge-window)
+(global-set-key (kbd "S-<left>")   'shrink-window-horizontally)
+(global-set-key (kbd "S-<right>")  'enlarge-window-horizontally)
+
+;; Shuffle/swap windows around
+(prelude-require-package 'buffer-move)
+;; https://github.com/bbatsov/prelude/issues/106
+;; have to unbind first
+(define-key prelude-mode-map (kbd "C-S-<up>")  nil)
+(define-key prelude-mode-map (kbd "C-S-<down>")  nil)
+(define-key prelude-mode-map (kbd "C-S-<left>")  nil)
+(define-key prelude-mode-map (kbd "C-S-<right>")  nil)
+(global-set-key (kbd "C-S-<up>")     'buf-move-up)
+(global-set-key (kbd "C-S-<left>")   'buf-move-left)
+(global-set-key (kbd "C-S-<down>")   'buf-move-down)
+(global-set-key (kbd "C-S-<right>")  'buf-move-right)
+
+;; move line up/down (already enabled) -- M-S-up
+;; move-text-down
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Packages
+
+(prelude-require-package 'paradox)
+(setq paradox-github-token "73681072057753c941b39edf4495e55a8cce4585")
+
 ;; url view
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
 (global-set-key (kbd "C-c u") 'browse-url-firefox)
 
 ;; smartparens overrides M-r, so changing default
 (global-set-key "\M-R" 'move-to-window-line-top-bottom)
-
-;;; Rainbow Parens (already part of prelude?)
-(prelude-require-package 'rainbow-delimiters)
-;; (require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook #'superword-mode)
 
 ;; Multiple cursors: https://github.com/magnars/multiple-cursors.el
 (prelude-require-package 'multiple-cursors)
@@ -141,7 +297,7 @@
 (require 'adoc-mode)
 (add-to-list 'auto-mode-alist '("\\.asc$" . adoc-mode))
                                         ;(add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
-(add-hook 'adoc-mode-hook (lambda() (buffer-face-mode t)))
+(add-hook 'adoc-mode-hook (lambda () (buffer-face-mode t)))
 
 ;;; Commenter: still stuggling with this
 (prelude-require-package 'comment-dwim-2)
@@ -150,7 +306,8 @@
 ;; Typopunct: fancy quotes, etc: — ‘’ “”
 ;; enable: M-x typopunct-mode
 ;; https://www.emacswiki.org/emacs/TypographicalPunctuationMarks
-;;(prelude-require-package 'typopunct)
+;; (prelude-require-package 'typopunct)
+(prelude-require-package 'typo)
 ;;(require 'typopunct)
 ;;(typopunct-change-language 'english t)
 
@@ -167,8 +324,12 @@
 (setq org-journal-dir "~/doc/journal/")
 (require 'org-journal)
 
+;; https://github.com/larstvei/Focus (neat idea)
+(prelude-require-package 'focus)
+(focus-mode 0)
+
 ;; Like tpope's vim-surround
-(prelude-require-package 'corral)
+(prelude-require-package 'corral)       ; doesn't honor selection
 (setq corral-preserve-point t)
 (global-set-key (kbd "M-[") 'corral-brackets-backward)
 (global-set-key (kbd "M-]") 'corral-brackets-forward)
@@ -180,6 +341,16 @@
 ;; (global-set-key (kbd "M-`") 'corral-backquote-forward)
 ;; (global-set-key (kbd "M-*") 'corral-wrap-backward)
 
+;; https://github.com/rejeep/wrap-region.el (bbatsov likes this)
+(prelude-require-package 'wrap-region)
+(wrap-region-global-mode t)
+(wrap-region-add-wrappers
+ '(("$" "$")
+   ("{-" "-}" "#")
+   ("/" "/" nil ruby-mode)
+   ("/* " " */" "#" (java-mode javascript-mode css-mode))
+   ("`" "`" nil (markdown-mode ruby-mode))))
+
 ;;; Switch to other/previous buffer quickly
 ;; http://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
 ;; (global-set-key (kbd "C-c b") 'mode-line-other-buffer)
@@ -188,6 +359,7 @@
 
 
 ;;; ElFeed: rss feed reader
+(prelude-require-package 'elfeed)
 (global-set-key (kbd "C-x w") 'elfeed)
 (setq elfeed-feeds
       '("http://emacsredux.com/atom.xml"
@@ -199,9 +371,11 @@
         "http://oremacs.com/atom.xml"
         "https://medium.com/feed/tech-talk"
         "http://planet.emacsen.org/atom.xml"
-        "http://www.lispcast.com/feed"))
+        "http://www.lispcast.com/feed"
+        ;; "http://www.espn.com/espn/rss/news"
+        ))
 
-;; Prelude badly sets C-- to zoom out
+;; Prelude badly sets C-- to zoom out, so keep as negative argument
 (global-set-key (kbd "C--") 'negative-argument)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -212,7 +386,7 @@
 
 
 (custom-set-faces
- '(rainbow-delimiters-depth-1-face ( (t (:foreground "dark orange" :weight bold))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "dark orange" :weight bold))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "deep pink" :weight bold))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "chartreuse" :weight bold))))
  '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue" :weight bold))))
@@ -229,9 +403,6 @@
 ;; (set-face-background 'modeline "purple"
 ;; (set-face-background 'modeline-inactive "dark gray")
 
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
-
 ;; https://github.com/mickeynp/smart-scan
 ;; M-n,  M-p,  M-' (replace all), C-u M-' (scoped replace)
 ;; Disabling since bad to have global, overrides in REPLs
@@ -246,10 +417,16 @@
 (global-set-key (kbd "M-o") 'ace-window)
 
 
+;; Select/highlight with easy-kill
 ;; https://github.com/leoliu/easy-kill
+;; http://stackoverflow.com/a/36631886/326516
 (global-set-key [remap mark-sexp] 'easy-mark)
 (global-set-key [remap kill-ring-save] 'easy-kill)
 ;; (global-set-key [remap kill-ring-save] 'easy-mark)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Search/jump
 
 (prelude-require-package 'jump-char)
 ;; But what about `back-to-indentation' (bound to M-m by default)?
@@ -258,8 +435,35 @@
 (global-set-key [(meta m)] 'jump-char-forward)
 (global-set-key [(shift meta m)] 'jump-char-backward)
 
+;; AVY: https://github.com/abo-abo/avy/wiki/defcustom
+;; confine avy's characters for ease of typing/finding
+;; (setq avy-keys (number-sequence ?a ?f))
+;; Use only easiest left and right keys
+(setq avy-keys (string-to-list "asdfwerjkluio"))
+;; only search in current window
+(setq avy-all-windows nil)
+;; make case-sensitive
+(setq avy-case-fold-search nil)
 ;; (key-chord-define-global "jj" nil)
-(key-chord-define-global "jj" 'avy-goto-char-2)
+;; (key-chord-define-global "jj" 'avy-goto-char-2)
+(key-chord-define-global "jj" 'avy-goto-word-1)
+
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(setq aw-dispatch-always t)
+(setq aw-scope 'frame)
+
+(defvar aw-dispatch-alist
+  '((?x aw-delete-window " Ace - Delete Window")
+    (?m aw-swap-window " Ace - Swap Window")
+    (?n aw-flip-window)
+    (?v aw-split-window-vert " Ace - Split Vert Window")
+    (?b aw-split-window-horz " Ace - Split Horz Window")
+    (?i delete-other-windows " Ace - Maximize Window")
+    (?o delete-other-windows))
+  "List of actions for `aw-dispatch-default'.")
+
+
+
 
 (require 'ansi-color)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -268,6 +472,9 @@
 (prelude-require-package 'dired+)
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Language Setups
 
 
 ;; Need to figure out how to only load this for shell-mode
@@ -370,7 +577,7 @@ that directory to make multiple eshell windows easier."
 
 
 
-;; Slime-like for shell (C-u C-x M-m)
+;; Slime-like for shell/zsh (C-u C-x M-m)
 ;; http://stackoverflow.com/questions/6286579/
 (defun sh-send-line-or-region (&optional step)
   (interactive ())
@@ -424,7 +631,8 @@ that directory to make multiple eshell windows easier."
 ;; https://www.emacswiki.org/emacs/dot-mode.el
 ;; C-.  C-M-.  C-c.
 (autoload 'dot-mode "dot-mode" nil t)
-(dot-mode t)
+;; (dot-mode t)
+(global-dot-mode t)
 
 ;; https://github.com/domtronn/all-the-icons.el
 (prelude-require-package 'all-the-icons)
@@ -432,49 +640,13 @@ that directory to make multiple eshell windows easier."
 ;; https://github.com/jaypei/emacs-neotree
 (prelude-require-package 'neotree)
 (global-set-key [f8] 'neotree-toggle)
-;; (setq neo-theme (if window-system 'icons 'arrow))
+(setq neo-theme (if window-system 'icons 'arrow))
 (setq neo-theme 'icons)
 
 ;; (prelude-require-package 'esh-help)
 ;; (require 'esh-help)
 ;; (setup-esh-help-eldoc)  ;; To use eldoc in Eshell
 
-;; Buffer Move
-(define-key prelude-mode-map (kbd "S-<up>")  nil)
-(define-key prelude-mode-map (kbd "S-<down>")  nil)
-(define-key prelude-mode-map (kbd "S-<left>")  nil)
-(define-key prelude-mode-map (kbd "S-<right>")  nil)
-(global-set-key (kbd "S-<up>")     'shrink-window)
-(global-set-key (kbd "S-<down>")   'enlarge-window)
-(global-set-key (kbd "S-<left>")   'shrink-window-horizontally)
-(global-set-key (kbd "S-<right>")  'enlarge-window-horizontally)
-
-(prelude-require-package 'buffer-move)
-;; https://github.com/bbatsov/prelude/issues/106
-;; have to unbind first
-(define-key prelude-mode-map (kbd "C-S-<up>")  nil)
-(define-key prelude-mode-map (kbd "C-S-<down>")  nil)
-(define-key prelude-mode-map (kbd "C-S-<left>")  nil)
-(define-key prelude-mode-map (kbd "C-S-<right>")  nil)
-(global-set-key (kbd "C-S-<up>")     'buf-move-up)
-(global-set-key (kbd "C-S-<left>")   'buf-move-left)
-(global-set-key (kbd "C-S-<down>")   'buf-move-down)
-(global-set-key (kbd "C-S-<right>")  'buf-move-right)
-
-(prelude-require-package 'smooth-scrolling)
-(smooth-scrolling-mode t)
-;; (defun gcm-scroll-down () (interactive) (scroll-up 1))
-;; (defun gcm-scroll-up () (interactive) (scroll-down 1))
-;; (global-set-key [(control down)] 'gcm-scroll-down)
-;; (global-set-key [(control up)]   'gcm-scroll-up)
-
-;; https://www.emacswiki.org/emacs/HighlightCurrentColumn
-(prelude-require-package 'smooth-scrolling)
-
-
-;; (prelude-require-package 'pretty-mode)
-;; (global-pretty-mode t)
-(global-prettify-symbols-mode t)
 
 
 ;; Zsh
@@ -507,6 +679,7 @@ that directory to make multiple eshell windows easier."
 ;; (setq clippy-tip-show-function #'clippy-popup-tip-show)
 
 (prelude-require-package 'github-issues)
+(prelude-require-package 'flycheck-tip)
 
 ;; Clojure
 ;; NOTE: also installed to ~/.lein/profiles.clj: kibit, eastwood
@@ -519,11 +692,16 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'flycheck-clojure)
 (prelude-require-package 'helm-clojuredocs)
 (prelude-require-package 'slamhound)
-(prelude-require-package 'kibit-helper)
+;; (prelude-require-package 'kibit-helper)
 (prelude-require-package 'sotclojure)
-(prelude-require-package 'flycheck-tip)
+(define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
+(setq error-tip-notify-keep-messages t)
+;; (flycheck-tip-use-timer 'verbose)
+;; (prelude-require-package 'flycheck-pos-tip)
+;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
 (prelude-require-package 'clojure-mode-extra-font-locking)
 
+;; https://github.com/clojure-emacs/clj-refactor.el
 (defun my-clojure-mode-hook () "Foo bar."
        (message "in my-clojure-mode-hook")
        (clj-refactor-mode 1)
@@ -540,8 +718,10 @@ that directory to make multiple eshell windows easier."
      (message "MDE: in clojure eval-after-load")))
 
 ;; https://github.com/clojure-emacs/squiggly-clojure
-(eval-after-load 'flycheck '(flycheck-clojure-setup))
+;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
 (add-hook 'after-init-hook #'global-flycheck-mode)
+;; (eval-after-load 'flycheck
+;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; http://stackoverflow.com/questions/23766483/emacs-cider-clojure-auto-complete-how-to-get-the-docstring
 (setq ac-delay 0.1)
@@ -559,6 +739,15 @@ that directory to make multiple eshell windows easier."
 (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'cider-mode))
+
+;; ;; Puppet
+;; (prelude-require-package 'puppet-mode)
+;; (prelude-require-package 'flymake-puppet)
+;; (add-hook puppet-mode-hook 'flymake-puppet-load)
+
+;; Ansible
+(prelude-require-package 'ansible)
+(prelude-require-package 'ansible-doc)
 
 ;; Minor mode for personal overrides
 ;; http://stackoverflow.com/questions/683425/globally-override-key-binding-in-emacs
@@ -580,6 +769,12 @@ that directory to make multiple eshell windows easier."
        (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Other non-programming modes
+
+;; http://emacs.stackexchange.com/questions/2410/how-can-i-use-emacs-to-edit-questions-answers-and-comments-here/
+;; (prelude-require-package 'sx)
+
 ;; http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
 (defun clip-file ()
   "Put the current file name on the clipboard."
@@ -590,6 +785,20 @@ that directory to make multiple eshell windows easier."
     (when filename
       (x-select-text filename))))
 
+
+;; Scroll without moving point; like Vim's C-y, C-e
+(defun scroll-up-stay (arg)
+  (interactive "p")
+  (previous-line arg)
+  (scroll-up arg))
+(defun scroll-down-stay (arg)
+  (interactive "p")
+  (scroll-down arg)
+  (next-line arg))
+(global-set-key (kbd "C-S-T") 'scroll-up-stay)
+(global-set-key (kbd "C-S-Y") 'scroll-down-stay)
+;; (global-set-key (kbd "C-y") 'yank)
+;; (global-set-key (kbd "C-t") 'transpose-chars)
 
 (provide 'mde)
 
