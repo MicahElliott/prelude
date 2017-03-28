@@ -92,8 +92,8 @@
 ;; Disable discoloration of long lines (and other stuff)
 ;; https://github.com/bbatsov/prelude#disabling-whitespace-mode
 ;; Toggle these two lines and repoen a file
-(setq prelude-whitespace nil)
-;; (setq prelude-whitespace t)
+;; (setq prelude-whitespace nil)
+(setq prelude-whitespace t)
 
 ;; (prelude-require-package 'linum-relative)
 ;; (require 'linum-relative)
@@ -108,7 +108,7 @@
 ;; (defface visible-mark-active ;; put this before (require 'visible-mark)
 ;;   '((((type tty) (class mono)))
 ;;     (t (:background "magenta"))) "")
-(setq visible-mark-max 4)
+(setq visible-mark-max 1)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2))
 (prelude-require-package 'visible-mark)
 (global-visible-mark-mode)
@@ -125,6 +125,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
+
+(global-set-key (kbd "C-M-_") 'text-scale-decrease)
+(global-set-key (kbd "C-M-+") 'text-scale-increase)
+
+(global-set-key (kbd "C-x C-f") 'ido-find-file)
 
 (prelude-require-package 'yascroll)
 (global-yascroll-bar-mode 1)
@@ -152,6 +157,14 @@
 ;; Spelling/grammar help
 ;; https://github.com/mhayashi1120/Emacs-langtool
 (prelude-require-package 'langtool)
+
+
+(setq tab-stop-list (number-sequence 2 200 2))
+
+;; Zsh
+(setq indent-tabs-mode t)
+(setq tab-width 2)
+
 
 ;; (prelude-require-package 'bash-completion)
 ;; (bash-completion-setup)
@@ -263,7 +276,6 @@
 ;;; Packages
 
 (prelude-require-package 'paradox)
-(setq paradox-github-token "73681072057753c941b39edf4495e55a8cce4585")
 
 ;; url view
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
@@ -520,6 +532,12 @@
 (prelude-require-package 'flymake-hlint)
 ;; (define-key haskell-mode-map (kbd "M-.") 'haskell-mode-tag-find)
 
+(prelude-require-package 'intero)
+
+;;; Docker
+(prelude-require-package 'dockerfile-mode)
+(prelude-require-package 'docker)
+
 ;;; EShell
 
 ;; (prelude-require-package 'multi-eshell)
@@ -685,6 +703,8 @@ that directory to make multiple eshell windows easier."
 ;; NOTE: also installed to ~/.lein/profiles.clj: kibit, eastwood
 (prelude-require-package 'smartparens)  ; better paredit, sp-*
 (prelude-require-package 'cider)
+;; (prelude-require-package 'monroe)
+;; (add-hook 'clojure-mode-hook 'clojure-enable-monroe)
 (prelude-require-package 'hydra)
 (prelude-require-package 'clj-refactor)
 (prelude-require-package 'clojure-snippets) ; yas for clojure
@@ -787,14 +807,15 @@ that directory to make multiple eshell windows easier."
 
 
 ;; Scroll without moving point; like Vim's C-y, C-e
+;; http://stackoverflow.com/a/10541426/326516
 (defun scroll-up-stay (arg)
   (interactive "p")
-  (previous-line arg)
+  (forward-line (* -1 arg))
   (scroll-up arg))
 (defun scroll-down-stay (arg)
   (interactive "p")
   (scroll-down arg)
-  (next-line arg))
+  (forward-line arg))
 (global-set-key (kbd "C-S-T") 'scroll-up-stay)
 (global-set-key (kbd "C-S-Y") 'scroll-down-stay)
 ;; (global-set-key (kbd "C-y") 'yank)
