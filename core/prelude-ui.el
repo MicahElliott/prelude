@@ -48,7 +48,7 @@
 (setq ring-bell-function 'ignore)
 
 ;; disable startup screen
-(setq inhibit-startup-screen t)
+(setq inhibit-startup-screen nil)
 
 ;; nice scrolling
 (setq scroll-margin 0
