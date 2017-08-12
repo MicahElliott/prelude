@@ -3,7 +3,10 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        beginning-of-buffer
         cljr-add-missing-libspec
+        hydra-cljr-code-menu/cljr-promote-function
+        indent-for-tab-command
         org-self-insert-command
         sp-backward-delete-char
         sp-forward-slurp-sexp

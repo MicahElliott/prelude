@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;; Personal config instructions:
 ;; https://github.com/bbatsov/prelude/issues/596
-
+;
 ;; Process for updating:
 ;; https://help.github.com/articles/syncing-a-fork/
 ;; git fetch upstream
@@ -38,6 +38,10 @@
 (setq inhibit-startup-screen nil)
 (setq inhibit-splash-screen nil)
 
+;; Jump to help window when opened
+;; http://stackoverflow.com/questions/36506141/emacs-dispatch-help-window-from-original-buffer
+(setq help-window-select t)
+
 (prelude-require-package 'smart-mode-line-powerline-theme)
 
 (prelude-require-package 'dashboard)
@@ -49,6 +53,17 @@
 (prelude-require-package 'monokai-theme)
 (load-theme 'monokai t t)
 (enable-theme 'monokai)
+
+;; special treatment of FIXME, etc
+(prelude-require-package 'fic-mode)
+(add-hook 'prog-mode-hook 'fic-mode)
+
+;; Wow, hide comments!!
+(prelude-require-package 'hide-comnt)
+(global-set-key (kbd "C-c c") 'hide/show-comments-toggle)
+
+(prelude-require-package 'smart-comment)
+(global-set-key (kbd "M-;") 'smart-comment)
 
 ;; Theme overrides
 ;; (set-face-attribute 'region nil :background "#999")
@@ -70,10 +85,10 @@
 
 ;; Highlight word matching point without doing anything
 ;; https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el
-(prelude-require-package 'idle-highlight-mode)
-;; (idle-highlight-mode t)
-(add-hook 'prog-mode-hook 'idle-highlight-mode)
-(add-hook 'text-mode-hook 'idle-highlight-mode)
+;; Disabling since might play badly with org-mode
+;; (prelude-require-package 'idle-highlight-mode)
+;; (add-hook 'prog-mode-hook 'idle-highlight-mode)
+;; (add-hook 'text-mode-hook 'idle-highlight-mode)
 
 ;; Highlight the point column (see `col-highlight' in customize)
 ;; (not really using)
@@ -130,6 +145,13 @@
 (global-set-key (kbd "C-M-+") 'text-scale-increase)
 
 (global-set-key (kbd "C-x C-f") 'ido-find-file)
+
+;; Scroll only half-screen
+;; http://stackoverflow.com/a/19690877/326516
+;; (require 'view)
+;; (global-set-key "\C-v"   'View-scroll-half-page-forward)
+;; (global-set-key "\M-v"   'View-scroll-half-page-backward)
+;; Actually, I like full-screen scrolling.
 
 (prelude-require-package 'yascroll)
 (global-yascroll-bar-mode 1)
@@ -228,6 +250,10 @@
 (global-prettify-symbols-mode t)
 
 
+(prelude-require-package 'highlight-numbers)
+(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
 
@@ -323,18 +349,18 @@
 ;;(require 'typopunct)
 ;;(typopunct-change-language 'english t)
 
-;; https://github.com/k1LoW/emacs-ansible
-(add-hook 'yaml-mode-hook #'ansible-doc-mode)
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
-(add-hook 'yaml-mode-hook #'ansible-doc-mode)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Org-mode
 ;; https://www.emacswiki.org/emacs/OrgJournal
 (prelude-require-package 'org-journal)
 (setq org-journal-dir "~/doc/journal/")
 (require 'org-journal)
+;; Seems to do too much; might have failed install
+;; (prelude-require-package 'ox-reveal)
+(prelude-require-package 'htmlize)
+(prelude-require-package 'epresent)
+(prelude-require-package 'org-tree-slide)
+(prelude-require-package 'org-bullets)
 
 ;; https://github.com/larstvei/Focus (neat idea)
 (prelude-require-package 'focus)
@@ -484,6 +510,12 @@
 (prelude-require-package 'dired+)
 
 
+;; https://github.com/lewang/command-log-mode
+(prelude-require-package 'command-log-mode)
+(require 'command-log-mode)
+(add-hook 'LaTeX-mode-hook 'command-log-mode)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Language Setups
@@ -502,6 +534,29 @@
 ;;     map)
 ;;   "Keymap for `ruby-tools-mode'.")
 
+
+;; Python
+(prelude-require-package 'elpy)
+(elpy-enable)
+;; (prelude-require-package 'jedi)
+(prelude-require-package 'company-jedi)
+(defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+(add-hook 'python-mode-hook 'my/python-mode-hook)
+
+;; (setq-default py-shell-name "ipython")
+;; (setq-default py-which-bufname "IPython")
+;; ;; use the wx backend, for both mayavi and matplotlib
+;; (setq py-python-command-args '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
+;; (setq py-force-py-shell-name-p t)
+
+;; switch to the interpreter after executing code
+(setq py-shell-switch-buffers-on-execute-p t)
+(setq py-switch-buffers-on-execute-p t)
+;; don't split windows
+(setq py-split-windows-on-execute-p nil)
+;; try to automagically figure out indentation
+(setq py-smart-indentation t)
 
 ;; Ruby
 (prelude-require-package 'chruby)
@@ -623,7 +678,7 @@ that directory to make multiple eshell windows easier."
     (display-buffer (process-buffer proc) t)
     (when step
       (goto-char max)
-      (next-line))
+      (forward-line))
     ))
 (defun sh-send-line-or-region-and-step ()
   (interactive)
@@ -683,8 +738,7 @@ that directory to make multiple eshell windows easier."
 (global-set-key "\C-x3"
                 (lambda () (interactive) (split-window-horizontally) (other-window 1)))
 
-(prelude-require-package 'company-ansible)
-
+;; https://github.com/expez/company-quickhelp
 (setq company-tooltip-idle-delay 0.1)
 (setq company-quickhelp-delay 0.1)
 (prelude-require-package 'pos-tip)
@@ -692,6 +746,8 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'company-quickhelp)
 (company-quickhelp-mode 1)
 ;; stupid thing overrids M-h
+;; (eval-after-load 'company
+  ;; '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
 ;; (prelude-require-package 'clippy)
 ;; (setq clippy-tip-show-function #'clippy-popup-tip-show)
@@ -712,6 +768,8 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'flycheck-clojure)
 (prelude-require-package 'helm-clojuredocs)
 (prelude-require-package 'slamhound)
+;; (prelude-require-package 'flycheck-joker)
+;; (require 'flycheck-joker)
 ;; (prelude-require-package 'kibit-helper)
 (prelude-require-package 'sotclojure)
 (define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
@@ -721,6 +779,12 @@ that directory to make multiple eshell windows easier."
 ;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
 (prelude-require-package 'clojure-mode-extra-font-locking)
 
+(add-hook 'clojure-mode-hook 'command-log-mode)
+
+;; hack
+(define-key prelude-mode-map (kbd "C-c r") nil)
+(global-unset-key (kbd "C-c r"))
+
 ;; https://github.com/clojure-emacs/clj-refactor.el
 (defun my-clojure-mode-hook () "Foo bar."
        (message "in my-clojure-mode-hook")
@@ -728,6 +792,9 @@ that directory to make multiple eshell windows easier."
        (yas-minor-mode 1) ; for adding require/use/import statements
        ;; This choice of keybinding leaves cider-macroexpand-1 unbound
        (global-set-key (kbd "M-h") 'mark-paragraph)
+       (global-set-key (kbd "C-c r") 'cljr-helm)
+       ;; (cljr-add-keybindings-with-prefix "C-c r")
+       ;; (define-key (kbd "C-c r"))
        (cljr-add-keybindings-with-prefix "C-c m"))
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
@@ -769,6 +836,17 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'ansible)
 (prelude-require-package 'ansible-doc)
 
+;; https://github.com/k1LoW/emacs-ansible
+(add-hook 'yaml-mode-hook #'ansible-doc-mode)
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
+(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+(add-hook 'yaml-mode-hook #'ansible-doc-mode)
+
+(prelude-require-package 'company-ansible)
+(add-to-list 'company-backends 'company-ansible)
+
 ;; Minor mode for personal overrides
 ;; http://stackoverflow.com/questions/683425/globally-override-key-binding-in-emacs
 (defvar my-keys-minor-mode-map
@@ -781,7 +859,7 @@ that directory to make multiple eshell windows easier."
   "Custom my-keys-minor-mode keymap.")
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
-[]  :init-value t
+  :init-value t
   :lighter " my-keys")
 (my-keys-minor-mode 1)
 
@@ -803,7 +881,7 @@ that directory to make multiple eshell windows easier."
                       (file-name-directory default-directory)
                     (buffer-file-name))))
     (when filename
-      (x-select-text filename))))
+      (gui-select-text filename))))
 
 
 ;; Scroll without moving point; like Vim's C-y, C-e
@@ -824,3 +902,6 @@ that directory to make multiple eshell windows easier."
 (provide 'mde)
 
 ;;; mde ends here
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; End:
