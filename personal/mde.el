@@ -3,7 +3,7 @@
 ;;; Commentary:
 ;; Personal config instructions:
 ;; https://github.com/bbatsov/prelude/issues/596
-;
+                                        ;
 ;; Process for updating:
 ;; https://help.github.com/articles/syncing-a-fork/
 ;; git fetch upstream
@@ -23,6 +23,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Look-n-Feel
+
+;; (set-language-environment "UTF-8")
+;; (set-default-coding-systems 'utf-8)
+;(set-frame-font "Ubuntu Mono 10" nil t)
 
 ;; Stop Emacs from processing .Xresources/.Xdefaults
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Resources.html#Resources
@@ -64,6 +68,12 @@
 
 (prelude-require-package 'smart-comment)
 (global-set-key (kbd "M-;") 'smart-comment)
+
+;; Planck-friendly
+(global-set-key (kbd "M-{") 'backward-paragraph)
+(global-set-key (kbd "M-<") 'forward-paragraph)
+(global-set-key (kbd "M->") 'end-of-buffer)
+(global-set-key (kbd "M-}") 'beginning-of-buffer)
 
 ;; Theme overrides
 ;; (set-face-attribute 'region nil :background "#999")
@@ -140,6 +150,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
+
+;; Register marking/jumping, closer to vim
+(global-set-key (kbd "M-S-M") 'point-to-register)
+(global-set-key (kbd "M-J") 'jump-to-register)
 
 (global-set-key (kbd "C-M-_") 'text-scale-decrease)
 (global-set-key (kbd "C-M-+") 'text-scale-increase)
@@ -317,6 +331,11 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
+;; Tramp
+(tramp-set-completion-function "ssh"
+ '((tramp-parse-sconfig "~/.ssh/config")
+   (tramp-parse-sconfig "~/proj/Membean/provn/ansible/ssh-inventory.config")))
+
 ;; thread says Helm Descbinds is better than guide-key:
 ;; https://github.com/bbatsov/prelude/issues/481
 ;; ;;; Guide Key: completable help menu
@@ -341,11 +360,16 @@
 (prelude-require-package 'comment-dwim-2)
 (global-set-key (kbd "M-;") 'comment-dwim-2)
 
-;; Typopunct: fancy quotes, etc: — ‘’ “”
+;; Typopunct: fancy/pretty quotes, etc: — ‘’ “”
 ;; enable: M-x typopunct-mode
 ;; https://www.emacswiki.org/emacs/TypographicalPunctuationMarks
 ;; (prelude-require-package 'typopunct)
+;; (typopunct-change-language 'english t)
+;; (typopunct-mode 1)
+;; https://github.com/jorgenschaefer/typoel
 (prelude-require-package 'typo)
+(setq-default typo-language "English")
+;; M-x typo-mode
 ;;(require 'typopunct)
 ;;(typopunct-change-language 'english t)
 
@@ -715,11 +739,26 @@ that directory to make multiple eshell windows easier."
 (global-set-key [f8] 'neotree-toggle)
 (setq neo-theme (if window-system 'icons 'arrow))
 (setq neo-theme 'icons)
+;; open neotree with current file as root
+(setq neo-smart-open t)
+
+;; Try dir-tree too.  Manual install.
+;; https://github.com/rtircher/dirtree
+;; (require 'dir-tree)
 
 ;; (prelude-require-package 'esh-help)
 ;; (require 'esh-help)
 ;; (setup-esh-help-eldoc)  ;; To use eldoc in Eshell
 
+
+;; Octave
+;; (prelude-require-package 'ac-octave)
+
+;; Gherkin/Cucumber
+(prelude-require-package 'feature-mode)
+;; Just for emacs testing
+;; (prelude-require-package 'ecukes)
+(prelude-require-package 'cucumber-goto-step)
 
 
 ;; Zsh
@@ -747,7 +786,7 @@ that directory to make multiple eshell windows easier."
 (company-quickhelp-mode 1)
 ;; stupid thing overrids M-h
 ;; (eval-after-load 'company
-  ;; '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
+;; '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
 ;; (prelude-require-package 'clippy)
 ;; (setq clippy-tip-show-function #'clippy-popup-tip-show)
@@ -766,10 +805,13 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'clojure-snippets) ; yas for clojure
 (prelude-require-package 'clojure-cheatsheet)
 (prelude-require-package 'flycheck-clojure)
-(prelude-require-package 'helm-clojuredocs)
-(prelude-require-package 'slamhound)
-;; (prelude-require-package 'flycheck-joker)
-;; (require 'flycheck-joker)
+;; Not useful; just opens in broswer
+;; (prelude-require-package 'helm-clojuredocs)
+;; Not needed since cljr-clean-ns
+;; (prelude-require-package 'slamhound)
+;; Not working
+(prelude-require-package 'flycheck-joker)
+(require 'flycheck-joker)
 ;; (prelude-require-package 'kibit-helper)
 (prelude-require-package 'sotclojure)
 (define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
@@ -785,6 +827,11 @@ that directory to make multiple eshell windows easier."
 (define-key prelude-mode-map (kbd "C-c r") nil)
 (global-unset-key (kbd "C-c r"))
 
+;; Trying to get rid of the prompt to save before load.
+(defun my-cider-load-buffer ()
+  (save-buffer)
+  (cider-load-buffer))
+
 ;; https://github.com/clojure-emacs/clj-refactor.el
 (defun my-clojure-mode-hook () "Foo bar."
        (message "in my-clojure-mode-hook")
@@ -793,6 +840,7 @@ that directory to make multiple eshell windows easier."
        ;; This choice of keybinding leaves cider-macroexpand-1 unbound
        (global-set-key (kbd "M-h") 'mark-paragraph)
        (global-set-key (kbd "C-c r") 'cljr-helm)
+       (global-set-key (kbd "C-c C-k") 'my-cider-load-buffer)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
        ;; (define-key (kbd "C-c r"))
        (cljr-add-keybindings-with-prefix "C-c m"))
@@ -866,6 +914,16 @@ that directory to make multiple eshell windows easier."
 (defun my-minibuffer-setup-hook () "Foo bar."
        (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+
+;; JavaScript
+
+(prelude-require-package 'rjsx-mode)
+(add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+
+;; Nginx
+
+(prelude-require-package 'nginx-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Other non-programming modes
