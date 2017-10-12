@@ -15,9 +15,11 @@
 
 (setq mc/cmds-to-run-once
       '(
+        cider-eval-last-sexp
         end-of-buffer
         handle-switch-frame
         helm-M-x
         prelude-smart-open-line
+        sp-backward-sexp
         sp-forward-barf-sexp
         ))
