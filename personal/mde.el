@@ -600,8 +600,8 @@
 (prelude-require-package 'flymake-coffee)
 
 
-(prelude-require-package 'crontab-mode)
-(add-to-list 'auto-mode-alist '("\\.crontab\\'" . crontab-mode))
+;; (prelude-require-package 'crontab-mode)
+;; (add-to-list 'auto-mode-alist '("\\.crontab\\'" . crontab-mode))
 
 ;; Disable prompt for kill
 ;; http://superuser.com/questions/354849/emacs-kill-buffer-without-prompt
