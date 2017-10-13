@@ -120,14 +120,14 @@
 ;; (setq prelude-whitespace nil)
 (setq prelude-whitespace t)
 
-;; (prelude-require-package 'linum-relative)
+(prelude-require-package 'linum-relative)
 ;; (require 'linum-relative)
 ;; (linum-on)
 ;; (global-linum-mode t)
 ;; (setq linum-relative-current-symbol "")
 
-(prelude-require-package 'relative-line-numbers)
-(global-relative-line-numbers-mode)
+;; (prelude-require-package 'relative-line-numbers)
+;; (global-relative-line-numbers-mode)
 
 ;; Make all the marks visible
 ;; (defface visible-mark-active ;; put this before (require 'visible-mark)
