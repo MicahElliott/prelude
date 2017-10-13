@@ -886,8 +886,8 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'ansible-doc)
 
 ;; https://github.com/k1LoW/emacs-ansible
+(prelude-require-package 'yaml-mode)
 (add-hook 'yaml-mode-hook #'ansible-doc-mode)
-(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
