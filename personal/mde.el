@@ -712,8 +712,8 @@ that directory to make multiple eshell windows easier."
   (interactive)
   (pop-to-buffer (process-buffer (get-process "shell")) t))
 
-(define-key sh-mode-map [(control ?j)] 'sh-send-line-or-region-and-step2)
-(define-key sh-mode-map [(control ?c) (control ?z)] 'sh-switch-to-process-buffer)
+;; (define-key sh-mode-map [(control ?j)] 'sh-send-line-or-region-and-step2)
+;; (define-key sh-mode-map [(control ?c) (control ?z)] 'sh-switch-to-process-buffer)
 
 ;; http://stackoverflow.com/questions/25819034/
 (set-face-attribute 'comint-highlight-prompt nil
