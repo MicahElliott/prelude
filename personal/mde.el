@@ -213,6 +213,7 @@
 
 ;; (require 'prelude-helm-everywhere)
 
+(prelude-require-package 'yasnippet)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
         ))
