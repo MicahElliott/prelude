@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: defmde
+# key: defmde
+# --
+(defmde $1 [$2] $0)

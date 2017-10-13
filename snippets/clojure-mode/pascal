@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pascal
+# key: pascal
+# --
+(def pascal (iterate (partial reductions +') (repeat 1)))
