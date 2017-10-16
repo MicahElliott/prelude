@@ -26,3 +26,5 @@ tramp
 network-security.data
 .#tramp
 .mc-lists.el
+.dir-locals.el
+TAGS
