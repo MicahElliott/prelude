@@ -54,9 +54,9 @@
 ;; (prelude-require-package 'tangotango-theme)
 ;; (load-theme 'tangotango t t)
 ;; (enable-theme 'tangotango)
-;; (prelude-require-package 'monokai-theme)
-;; (load-theme 'monokai t t)
-;; (enable-theme 'monokai)
+(prelude-require-package 'monokai-theme)
+(load-theme 'monokai t t)
+(enable-theme 'monokai)
 
 ;; special treatment of FIXME, etc
 (prelude-require-package 'fic-mode)
@@ -527,7 +527,8 @@
 ;; (require 'ansi-color)
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(prelude-require-package 'dired+)
+;; Prelude already requires dired-x.
+;; (prelude-require-package 'dired+)
 
 ;; ;; https://github.com/lewang/command-log-mode
 ;; (prelude-require-package 'command-log-mode)
