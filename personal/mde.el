@@ -29,7 +29,7 @@
 
 ;; Stop Emacs from processing .Xresources/.Xdefaults
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Resources.html#Resources
-;; (setq inhibit-x-resources t)
+(setq inhibit-x-resources t)
 
 ;; http://stackoverflow.com/questions/22898244/
 ;; (eval-when-compile (defvar prelude-mode-map))
@@ -806,6 +806,7 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'clojure-snippets) ; yas for clojure
 (prelude-require-package 'clojure-cheatsheet)
 (prelude-require-package 'flycheck-clojure)
+(prelude-require-package 'company-flx)
 ;; Not useful; just opens in broswer
 ;; (prelude-require-package 'helm-clojuredocs)
 ;; Not needed since cljr-clean-ns
@@ -844,6 +845,7 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "C-c C-k") 'my-cider-load-buffer)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
        ;; (define-key (kbd "C-c r"))
+       (company-flx-mode +1)
        (cljr-add-keybindings-with-prefix "C-c m"))
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
