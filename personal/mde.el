@@ -87,8 +87,6 @@
 ;; (global-set-key [(control up)]   'gcm-scroll-up)
 
 
-;; Seems prelude already does this??
-;; (show-paren-mode 1)
 
 ;; Highlight word matching point without doing anything
 ;; https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el
@@ -101,7 +99,7 @@
 ;; Highlight the point column (see `col-highlight' in customize)
 ;; (not really using)
 ;; Not great since covers up mark markers, and funky with variable-width lines.
-;; (prelude-require-package 'crosshairs)
+(prelude-require-package 'crosshairs)
 ;; (column-highlight-mode t)
 
 ;; Make the active window more visible than others
@@ -319,6 +317,14 @@
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
 (global-set-key (kbd "C-c u") 'browse-url-firefox)
 
+;; Camel, Kebab cases
+;; https://stackoverflow.com/a/27422814/326516
+(prelude-require-package 'string-inflection)
+(global-set-key (kbd "C-c C") 'string-inflection-camelcase)        ;; Force to CamelCase
+(global-set-key (kbd "C-c L") 'string-inflection-lower-camelcase)  ;; Force to lowerCamelCase
+(global-set-key (kbd "C-c J") 'string-inflection-java-style-cycle) ;; Cycle through Java styles
+(global-set-key (kbd "C-c K") 'string-inflection-kebab-case) ;; Cycle through Java styles
+
 ;; smartparens overrides M-r, so changing default
 (global-set-key "\M-R" 'move-to-window-line-top-bottom)
 
@@ -445,16 +451,39 @@
 ;; Not sure if works
 (setq explicit-shell-file-name "/usr/bin/zsh")
 
+;; Seems prelude already does this??
+;; https://www.emacswiki.org/emacs/ShowParenMode
+;; (show-paren-mode 1)
+(setq show-paren-delay 0)
+(show-paren-mode 0)
+(show-smartparens-mode 0)
+
+;; Highlight all parens you're inside
+;; https://www.emacswiki.org/emacs/HighlightParentheses
+(prelude-require-package 'highlight-parentheses)
+(global-highlight-parentheses-mode 1)
+;; ((((((((()))))))))
 
 (custom-set-faces
- '(rainbow-delimiters-depth-1-face ((t (:foreground "dark orange" :weight bold))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "deep pink" :weight bold))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "chartreuse" :weight bold))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue" :weight bold))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow" :weight bold))))
- '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid" :weight bold))))
+
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "royal blue" :weight bold))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "light slate blue" :weight bold))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "deep sky blue" :weight bold))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "cyan" :weight bold))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "forest green" :weight bold))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "yellow green" :weight bold))))
  '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green" :weight bold))))
- '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1" :weight bold))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "yellow" :weight bold))))
+
+ ;; '(rainbow-delimiters-depth-1-face ((t (:foreground "dark orange"))))
+ ;; '(rainbow-delimiters-depth-2-face ((t (:foreground "deep pink"))))
+ ;; '(rainbow-delimiters-depth-3-face ((t (:foreground "chartreuse"))))
+ ;; '(rainbow-delimiters-depth-4-face ((t (:foreground "deep sky blue"))))
+ ;; '(rainbow-delimiters-depth-5-face ((t (:foreground "yellow"))))
+ ;; '(rainbow-delimiters-depth-6-face ((t (:foreground "orchid"))))
+ ;; '(rainbow-delimiters-depth-7-face ((t (:foreground "spring green"))))
+ ;; '(rainbow-delimiters-depth-8-face ((t (:foreground "sienna1"))))
+
  ;; http://www.saltycrane.com/blog/2007/10/emacs-mode-line-color-custimization/
  '(mode-line ((t (:box (:line-width 2 :color "blue")))))
  ;; '(modeline-inactive "dark gray")
@@ -749,10 +778,10 @@ that directory to make multiple eshell windows easier."
 ;; (prelude-require-package 'ac-octave)
 
 ;; Gherkin/Cucumber
-;; (prelude-require-package 'feature-mode)
+(prelude-require-package 'feature-mode)
 ;; Just for emacs testing
 ;; (prelude-require-package 'ecukes)
-;; (prelude-require-package 'cucumber-goto-step)
+(prelude-require-package 'cucumber-goto-step)
 
 
 ;; Zsh
