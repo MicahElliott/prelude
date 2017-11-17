@@ -529,7 +529,8 @@
 ;; confine avy's characters for ease of typing/finding
 ;; (setq avy-keys (number-sequence ?a ?f))
 ;; Use only easiest left and right keys
-(setq avy-keys (string-to-list "asdfwerjkluio"))
+(setq avy-keys (string-to-list "asdfwerkluioghqtypvcxz,.'j"))
+;; (setq avy-keys (string-to-list "asdfwerjklasdfwerjklasdfwerjkl"))
 ;; only search in current window
 (setq avy-all-windows nil)
 ;; make case-sensitive
@@ -537,6 +538,9 @@
 ;; (key-chord-define-global "jj" nil)
 ;; (key-chord-define-global "jj" 'avy-goto-char-2)
 (key-chord-define-global "jj" 'avy-goto-word-1)
+(key-chord-define-global "kk" 'avy-goto-char-2)
+;; (key-chord-define-global "kk" 'avy-goto-line-above)
+;; (key-chord-define-global "jj" 'avy-goto-line-below)
 
 ;; Ace window
 ;; https://github.com/abo-abo/ace-window
@@ -906,6 +910,11 @@ that directory to make multiple eshell windows easier."
 (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'cider-mode))
+
+(setq cider-cljs-lein-repl
+      "(do (user/go)
+           (user/cljs-repl))")
+
 
 ;; ;; Puppet
 ;; (prelude-require-package 'puppet-mode)
