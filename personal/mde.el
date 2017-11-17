@@ -613,8 +613,8 @@
 
 ;; ;; Ruby
 ;; (prelude-require-package 'chruby)
-;; (prelude-require-package 'rubocop)
-;; (add-hook 'ruby-mode-hook 'rubocop-mode)
+(prelude-require-package 'rubocop)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
 ;; ;; Rails (C-c ' ...)
 ;; (prelude-require-package 'rinari)
 ;; (add-hook 'ruby-mode-hook 'rinari-minor-mode)
@@ -746,6 +746,8 @@ that directory to make multiple eshell windows easier."
                     :inherit nil)
 
 
+;; Markdown
+(prelude-require-package 'flymd)
 
 ;; LiveScript
 ;; (prelude-require-package 'livescript-mode)

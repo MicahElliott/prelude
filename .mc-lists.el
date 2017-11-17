@@ -16,6 +16,7 @@
 (setq mc/cmds-to-run-once
       '(
         cider-eval-last-sexp
+        crux-move-beginning-of-line
         end-of-buffer
         handle-switch-frame
         helm-M-x
