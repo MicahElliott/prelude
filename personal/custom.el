@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+ '(avy-case-fold-search nil)
  '(bookmark-default-file "/home/mde/.emacs.d/savefile/bookmarks")
  '(browse-url-browser-function (quote browse-url-firefox))
  '(cljr-auto-sort-ns t)
@@ -14,12 +15,14 @@
     ("708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" default)))
  '(fci-rule-color "#383838")
  '(global-yascroll-bar-mode t)
+ '(helm-ff-search-library-in-sexp t)
  '(hl-paren-colors (quote ("red" "IndianRed1" "IndianRed3" "IndianRed4")))
  '(hl-paren-delay 0)
  '(ido-default-file-method (quote selected-window))
  '(inhibit-startup-screen nil)
  '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "--stat" "-n256")))
  '(markdown-header-scaling t)
+ '(markdown-wiki-link-search-subdirectories t)
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
@@ -34,6 +37,9 @@
  '(prelude-whitespace t)
  '(projectile-enable-caching t)
  '(projectile-file-exists-remote-cache-expire nil)
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".ensime_cache" ".eunit" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "vendor")))
  '(projectile-mode t nil (projectile))
  '(projectile-switch-project-action (quote helm-projectile-find-file))
  '(safe-local-variable-values

@@ -141,9 +141,6 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'superword-mode)
 
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
@@ -263,6 +260,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
 
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+;; Planck arrows
+(global-set-key (kbd "C-S-f") 'windmove-right)
+(global-set-key (kbd "C-S-s") 'windmove-left)
+(global-set-key (kbd "C-S-e") 'windmove-up)
+(global-set-key (kbd "C-S-d") 'windmove-down)
+;; (global-set-key (kbd "C-s") 'isearch-forward)
+
 ;; Fastest window switching: http://emacs.stackexchange.com/a/3471/11025
 ;; (global-set-key (kbd "C-.") 'other-window)
 ;; (global-set-key (kbd "C-,") 'prev-window)
@@ -277,7 +283,6 @@
 (global-set-key (kbd "C-x o") 'other-window)
 (global-set-key (kbd "C-x C-o") (lambda () (interactive) (other-window -1)))
 (global-set-key "\C-xO"    (lambda () (interactive) (delete-blank-lines)))
-
 
 ;; Resize windows
 (define-key prelude-mode-map (kbd "S-<up>")  nil)
@@ -878,6 +883,7 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "M-h") 'mark-paragraph)
        (global-set-key (kbd "C-c r") 'cljr-helm)
        (global-set-key (kbd "C-c C-k") 'my-cider-load-buffer)
+       (setq cider-save-file-on-load t)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
