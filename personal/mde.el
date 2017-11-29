@@ -25,7 +25,7 @@
 
 ;; (set-language-environment "UTF-8")
 ;; (set-default-coding-systems 'utf-8)
-;(set-frame-font "Ubuntu Mono 10" nil t)
+;;(set-frame-font "Ubuntu Mono 10" nil t)
 
 ;; Stop Emacs from processing .Xresources/.Xdefaults
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Resources.html#Resources
@@ -260,6 +260,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
 
+;; Ace Window
+;; https://github.com/abo-abo/ace-window
+;; First need to remove prelude's mapping
+;; https://github.com/bbatsov/prelude/issues/106
+(define-key prelude-mode-map "\M-o" nil)
+(global-set-key (kbd "M-o") 'ace-window)
+(defvar aw-dispatch-alist
+  '((?x aw-delete-window "Delete Window")
+    (?m aw-swap-window "Swap Window")
+    (?M aw-move-window "Move Window")
+    (?j aw-switch-buffer-in-window "Select Buffer")
+    (?n aw-flip-window)
+    (?\t aw-flip-window)
+    (?c aw-split-window-fair "Split Fair Window")
+    (?v aw-split-window-vert "Split Vert Window")
+    (?b aw-split-window-horz "Split Horz Window")
+    (?i delete-other-windows "Delete Other Windows")
+    (?o delete-other-windows)
+    (?? aw-show-dispatch-help))
+  "List of actions for `aw-dispatch-default'.")
+
+(require 'key-chord)
+;; (key-chord-define-global "KK" 'jump-to-most-recent-window)
+;; (key-chord-define-global "KK" (lambda () aw-swap-window (current-wi)))
+
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 ;; Planck arrows
@@ -341,9 +366,9 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; Tramp
-(tramp-set-completion-function "ssh"
- '((tramp-parse-sconfig "~/.ssh/config")
-   (tramp-parse-sconfig "~/proj/Membean/provn/ansible/ssh-inventory.config")))
+(tramp-set-completion-function
+ "ssh" '((tramp-parse-sconfig "~/.ssh/config")
+         (tramp-parse-sconfig "~/proj/Membean/provn/ansible/ssh-inventory.config")))
 
 ;; thread says Helm Descbinds is better than guide-key:
 ;; https://github.com/bbatsov/prelude/issues/481
@@ -504,12 +529,6 @@
 ;; and does a bad job with extra syntax boundaries
 ;; (prelude-require-package 'smartscan)
 ;; (global-smartscan-mode 1)
-
-;; M-p and M-n for search word under point, OR:
-;; First need to remove prelude's mapping
-;; https://github.com/bbatsov/prelude/issues/106
-(define-key prelude-mode-map "\M-o" nil)
-(global-set-key (kbd "M-o") 'ace-window)
 
 
 ;; Select/highlight with easy-kill
@@ -1003,6 +1022,7 @@ that directory to make multiple eshell windows easier."
 (global-set-key (kbd "C-S-Y") 'scroll-down-stay)
 ;; (global-set-key (kbd "C-y") 'yank)
 ;; (global-set-key (kbd "C-t") 'transpose-chars)
+
 
 (provide 'mde)
 
