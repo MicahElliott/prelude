@@ -141,6 +141,15 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'superword-mode)
 
+;; Emoji!! 🐱 🐶 🔘 ☢ 🎿 😄 😱 😸 👸 👽 🙋 🚸
+;; Also run gitmoji in terminal
+(prelude-require-package 'flycheck-status-emoji)
+;; (prelude-require-package 'ac-emoji)
+(prelude-require-package 'company-emoji)
+(add-to-list 'company-backends 'company-emoji)
+;; (prelude-require-package 'emoji-cheat-sheet-plus)
+(prelude-require-package 'emojify)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
