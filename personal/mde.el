@@ -292,8 +292,7 @@
   "List of actions for `aw-dispatch-default'.")
 
 (require 'key-chord)
-;; (key-chord-define-global "KK" 'jump-to-most-recent-window)
-;; (key-chord-define-global "KK" (lambda () aw-swap-window (current-wi)))
+(key-chord-define-global "KK" 'aw-flip-window)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
