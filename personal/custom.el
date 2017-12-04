@@ -14,6 +14,7 @@
    (quote
     ("708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" default)))
  '(fci-rule-color "#383838")
+ '(global-superword-mode t)
  '(global-yascroll-bar-mode t)
  '(helm-ag-ignore-patterns (quote ("vendor/")))
  '(helm-ag-use-agignore t)
@@ -90,6 +91,8 @@
  '(fixed-pitch ((t (:family "Fantasque Sans Mono"))))
  '(font-lock-doc-face ((t (:foreground "dodger blue" :weight bold))))
  '(font-lock-type-face ((t (:foreground "#66D9EF" :slant italic :weight bold))))
+ '(idle-highlight ((t (:background "dark blue"))))
+ '(lazy-highlight ((t (:inherit highlight :background "dark orange" :foreground "black" :weight bold))))
  '(markdown-header-face-1 ((t (:inherit markdown-header-face :weight bold :height 1.3))))
  '(markdown-header-face-2 ((t (:inherit markdown-header-face :weight bold :height 1.2))))
  '(mode-line ((t (:box (:line-width 2 :color "blue")))))

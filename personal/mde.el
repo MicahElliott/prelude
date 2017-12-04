@@ -139,7 +139,8 @@
 (prelude-require-package 'rainbow-delimiters)
 ;; (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'superword-mode)
+;; FIXME: why isn't superword working?
+;; (add-hook 'prog-mode-hook 'superword-mode)
 
 ;; Emoji!! 🐱 🐶 🔘 ☢ 🎿 😄 😱 😸 👸 👽 🙋 🚸
 ;; Also run gitmoji in terminal
@@ -413,8 +414,6 @@
 (prelude-require-package 'typo)
 (setq-default typo-language "English")
 ;; M-x typo-mode
-;;(require 'typopunct)
-;;(typopunct-change-language 'english t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org-mode
@@ -891,7 +890,8 @@ that directory to make multiple eshell windows easier."
 ;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
 (prelude-require-package 'clojure-mode-extra-font-locking)
 
-(add-hook 'clojure-mode-hook 'command-log-mode)
+;; Log all commands for demo purposes.
+;; (add-hook 'clojure-mode-hook 'command-log-mode)
 
 ;; hack
 (define-key prelude-mode-map (kbd "C-c r") nil)
@@ -912,6 +912,7 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "C-c r") 'cljr-helm)
        (global-set-key (kbd "C-c C-k") 'my-cider-load-buffer)
        (setq cider-save-file-on-load t)
+       (setq cider-prompt-for-symbol nil)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
