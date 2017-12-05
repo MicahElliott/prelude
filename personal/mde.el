@@ -366,6 +366,8 @@
 
 ;; smartparens overrides M-r, so changing default
 (global-set-key "\M-R" 'move-to-window-line-top-bottom)
+;; Since already holding M-S-R, enable recenter (usually C-l) to also be M-S
+(global-set-key (kbd "M-L") 'recenter-top-bottom)
 
 ;; Multiple cursors: https://github.com/magnars/multiple-cursors.el
 (prelude-require-package 'multiple-cursors)
@@ -412,6 +414,8 @@
 ;; https://github.com/jorgenschaefer/typoel
 (prelude-require-package 'typo)
 (setq-default typo-language "English")
+(global-set-key (kbd "C-c T") 'typo-mode)
+;; ISSUE: Need to auto-enter typo-mode only while inside strings.
 ;; M-x typo-mode
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
