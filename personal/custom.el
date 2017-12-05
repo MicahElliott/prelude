@@ -10,6 +10,13 @@
  '(browse-url-browser-function (quote browse-url-firefox))
  '(cljr-auto-sort-ns t)
  '(cljr-warn-on-eval nil)
+ '(company-emoji-aliases
+   (quote
+    ((:woman_man_holding_hands: . ":couple:")
+     (:bento: . ":gm-bento:")
+     (:hankey: . ":gm-hankey:")
+     (:bug: . ":gm-bug:")
+     (:memo: . ":gmmemo:"))))
  '(custom-safe-themes
    (quote
     ("708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" default)))
@@ -91,7 +98,7 @@
  '(fixed-pitch ((t (:family "Fantasque Sans Mono"))))
  '(font-lock-doc-face ((t (:foreground "dodger blue" :weight bold))))
  '(font-lock-type-face ((t (:foreground "#66D9EF" :slant italic :weight bold))))
- '(idle-highlight ((t (:background "dark blue"))))
+ '(idle-highlight ((t (:background "blue"))))
  '(lazy-highlight ((t (:inherit highlight :background "dark orange" :foreground "black" :weight bold))))
  '(markdown-header-face-1 ((t (:inherit markdown-header-face :weight bold :height 1.3))))
  '(markdown-header-face-2 ((t (:inherit markdown-header-face :weight bold :height 1.2))))
