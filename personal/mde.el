@@ -141,6 +141,7 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; FIXME: why isn't superword working?
 ;; (add-hook 'prog-mode-hook 'superword-mode)
+(superword-mode 1)
 
 ;; Emoji!! 🐱 🐶 🔘 ☢ 🎿 😄 😱 😸 👸 👽 🙋 🚸
 ;; Also run gitmoji in terminal
@@ -417,6 +418,13 @@
 (global-set-key (kbd "C-c T") 'typo-mode)
 ;; ISSUE: Need to auto-enter typo-mode only while inside strings.
 ;; M-x typo-mode
+
+;; Magit: came with Super-based shortcuts; use C-c g ... instead
+(define-key prelude-mode-map (kbd "C-c g")  nil)
+(global-set-key (kbd "C-c g g") 'magit-status)
+(global-set-key (kbd "C-c g b") 'magit-blame)
+(global-set-key (kbd "C-c g l") 'magit-log-buffer-file)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org-mode
@@ -784,6 +792,9 @@ that directory to make multiple eshell windows easier."
 ;; Markdown
 (prelude-require-package 'flymd)
 
+;; Enable syntax highlighting of code in blocks.
+(setq markdown-fontify-code-blocks-natively t)
+
 ;; LiveScript
 ;; (prelude-require-package 'livescript-mode)
 
@@ -896,7 +907,7 @@ that directory to make multiple eshell windows easier."
 ;; Log all commands for demo purposes.
 ;; (add-hook 'clojure-mode-hook 'command-log-mode)
 
-;; hack
+;; hack to enable clj refactor
 (define-key prelude-mode-map (kbd "C-c r") nil)
 (global-unset-key (kbd "C-c r"))
 
