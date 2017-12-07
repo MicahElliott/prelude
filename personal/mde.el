@@ -152,10 +152,9 @@
 ;; (prelude-require-package 'emoji-cheat-sheet-plus)
 (prelude-require-package 'emojify)
 
-
 ;; Highlight active window (only japanese docs)
 (prelude-require-package 'hiwin)
-(hiwin-mode t)
+(hiwin-activate)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
@@ -914,7 +913,6 @@ that directory to make multiple eshell windows easier."
 ;; hack to enable clj refactor
 (define-key prelude-mode-map (kbd "C-c r") nil)
 (global-unset-key (kbd "C-c r"))
-(global-set-key (kbd "C-c r") )
 
 ;; Trying to get rid of the prompt to save before load.
 (defun my-cider-load-buffer ()
