@@ -153,6 +153,10 @@
 (prelude-require-package 'emojify)
 
 
+;; Highlight active window (only japanese docs)
+(prelude-require-package 'hiwin)
+(hiwin-mode t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
 
