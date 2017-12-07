@@ -910,6 +910,7 @@ that directory to make multiple eshell windows easier."
 ;; hack to enable clj refactor
 (define-key prelude-mode-map (kbd "C-c r") nil)
 (global-unset-key (kbd "C-c r"))
+(global-set-key (kbd "C-c r") )
 
 ;; Trying to get rid of the prompt to save before load.
 (defun my-cider-load-buffer ()
@@ -923,14 +924,16 @@ that directory to make multiple eshell windows easier."
        (yas-minor-mode 1) ; for adding require/use/import statements
        ;; This choice of keybinding leaves cider-macroexpand-1 unbound
        (global-set-key (kbd "M-h") 'mark-paragraph)
-       (global-set-key (kbd "C-c r") 'cljr-helm)
        (global-set-key (kbd "C-c C-k") 'my-cider-load-buffer)
        (setq cider-save-file-on-load t)
        (setq cider-prompt-for-symbol nil)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
-       (cljr-add-keybindings-with-prefix "C-c m"))
+       ;; (cljr-add-keybindings-with-prefix "C-c m")
+       (cljr-add-keybindings-with-prefix "C-c r")
+       (global-set-key (kbd "C-c R") 'cljr-helm)
+       )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
 (message "MDE: before eval-after-load")
