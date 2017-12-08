@@ -523,9 +523,11 @@
 (show-smartparens-mode 0)
 
 ;; Highlight all parens you're inside
+;; Not sure I love this.
 ;; https://www.emacswiki.org/emacs/HighlightParentheses
-(prelude-require-package 'highlight-parentheses)
-(global-highlight-parentheses-mode 1)
+;; (prelude-require-package 'highlight-parentheses)
+;; (global-highlight-parentheses-mode 1)
+;; Uncomment to test.
 ;; ((((((((()))))))))
 
 (custom-set-faces
