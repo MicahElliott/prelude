@@ -270,6 +270,8 @@
 ;; (prelude-require-package 'highlight-numbers)
 ;; (add-hook 'prog-mode-hook 'highlight-numbers-mode)
 
+;; Jump to open file in neotree
+(setq neo-smart-open t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
@@ -305,6 +307,13 @@
 (global-set-key (kbd "C-S-s") 'windmove-left)
 (global-set-key (kbd "C-S-e") 'windmove-up)
 (global-set-key (kbd "C-S-d") 'windmove-down)
+;(define-key prelude-mode-map "<right>" nil)
+;; Disable guru from touching these.
+(setq prelude-guru nil)
+(global-set-key (kbd "C-<right>") 'windmove-right)
+(global-set-key (kbd "C-<left>") 'windmove-left)
+(global-set-key (kbd "C-<up>") 'windmove-up)
+(global-set-key (kbd "C-<down>") 'windmove-down)
 ;; (global-set-key (kbd "C-s") 'isearch-forward)
 
 ;; Fastest window switching: http://emacs.stackexchange.com/a/3471/11025
