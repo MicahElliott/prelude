@@ -6,6 +6,9 @@
  '(ansi-color-names-vector
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
  '(avy-case-fold-search nil)
+ '(blink-cursor-blinks 2)
+ '(blink-cursor-interval 0.2)
+ '(blink-cursor-mode t)
  '(bookmark-default-file "/home/mde/.emacs.d/savefile/bookmarks")
  '(browse-url-browser-function (quote browse-url-firefox))
  '(cljr-auto-sort-ns t)
@@ -17,6 +20,7 @@
      (:hankey: . ":gm-hankey:")
      (:bug: . ":gm-bug:")
      (:memo: . ":gmmemo:"))))
+ '(cursor-type (quote (bar . 2)))
  '(custom-safe-themes
    (quote
     ("708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" default)))
@@ -30,7 +34,7 @@
  '(hl-paren-delay 0)
  '(ido-default-file-method (quote selected-window))
  '(inhibit-startup-screen nil)
- '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "--stat" "-n256")))
+ '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "--stat" "-n10")))
  '(markdown-header-scaling t)
  '(markdown-wiki-link-search-subdirectories t)
  '(neo-theme (quote icons))
@@ -40,7 +44,7 @@
  '(org-agenda-files (quote ("~/proj/woodpecker/preso/osb.org")))
  '(package-selected-packages
    (quote
-    (emojify emoji-cheat-sheet-plus emoji-cheat-sheet company-emoji ac-emoji flycheck-status-emoji flymd company-flx string-inflection highlight-parentheses clj-refactor pos-tip multiple-cursors parinfer counsel cucumber-goto-step feature-mode ac-octave nginx-mode rjsx-mode inf-clojure flycheck-joker highlight-numbers company-jedi elpy jedi fontawesome org-bullets org-tree-slide epresent htmlize ox-reveal clj-refacort command-log-mode smart-comment hide-comnt fic-mode sotclojure monroe docker dockerfile-mode docker-mode intero protobuf-mode pkgbuild-mode typo typopunct centered-cursor-mode speed-type sublimity-scroll yascroll smart-mode-line-powerline-theme dashboard paradox elfeed crosshairs hiwin monokai-theme flymake-puppet puppet-mode wrap-region focus zlc bash-completion ansible-doc ansible idle-highlight-mode f sx prelude-helm-everywhere dired+ langtool pretty-mode clojure-mode-extra-font-locking jump-char flycheck-tip flycheck-pos-tip kibit-helper slamhound helm-clojuredocs flycheck-clojure col-highlight origami hideshowvis ghc flymake-hlint haskell-mode corral flymake-coffee coffee-mode all-the-icons neotree zop-to-char zenburn-theme yari yaml-mode which-key web-mode volatile-highlights visible-mark utop unfill undo-tree tuareg toggle-quotes tangotango-theme smex smartscan smartrep smartparens smart-mode-line shrink-whitespace show-marks ruby-tools rubocop rinari relative-line-numbers rainbow-mode rainbow-delimiters ov org-journal operate-on-number multi-term multi-eshell move-text markdown-mode mark-tools magit livescript-mode linum-relative key-chord json-mode imenu-anywhere ido-ubiquitous helm-projectile helm-descbinds helm-cider helm-ag haml-mode guru-mode guide-key grizzl god-mode gitignore-mode github-issues gitconfig-mode git-timemachine gist geiser flycheck-ocaml flx-ido floobits expand-region exec-path-from-shell esh-help elisp-slime-nav easy-kill dot-mode discover-my-major discover-clj-refactor diminish diff-hl cycle-quotes csv-mode crux crontab-mode company-quickhelp company-ansible comment-dwim-2 clojure-snippets clojure-cheatsheet cljr-helm clippy chruby buffer-move browse-kill-ring bm beacon anzu adoc-mode ace-window ac-cider)))
+    (auto-dim-other-buffers emojify emoji-cheat-sheet-plus emoji-cheat-sheet company-emoji ac-emoji flycheck-status-emoji flymd company-flx string-inflection highlight-parentheses clj-refactor pos-tip multiple-cursors parinfer counsel cucumber-goto-step feature-mode ac-octave nginx-mode rjsx-mode inf-clojure flycheck-joker highlight-numbers company-jedi elpy jedi fontawesome org-bullets org-tree-slide epresent htmlize ox-reveal clj-refacort command-log-mode smart-comment hide-comnt fic-mode sotclojure monroe docker dockerfile-mode docker-mode intero protobuf-mode pkgbuild-mode typo typopunct centered-cursor-mode speed-type sublimity-scroll yascroll smart-mode-line-powerline-theme dashboard paradox elfeed crosshairs hiwin monokai-theme flymake-puppet puppet-mode wrap-region focus zlc bash-completion ansible-doc ansible idle-highlight-mode f sx prelude-helm-everywhere dired+ langtool pretty-mode clojure-mode-extra-font-locking jump-char flycheck-tip flycheck-pos-tip kibit-helper slamhound helm-clojuredocs flycheck-clojure col-highlight origami hideshowvis ghc flymake-hlint haskell-mode corral flymake-coffee coffee-mode all-the-icons neotree zop-to-char zenburn-theme yari yaml-mode which-key web-mode volatile-highlights visible-mark utop unfill undo-tree tuareg toggle-quotes tangotango-theme smex smartscan smartrep smartparens smart-mode-line shrink-whitespace show-marks ruby-tools rubocop rinari relative-line-numbers rainbow-mode rainbow-delimiters ov org-journal operate-on-number multi-term multi-eshell move-text markdown-mode mark-tools magit livescript-mode linum-relative key-chord json-mode imenu-anywhere ido-ubiquitous helm-projectile helm-descbinds helm-cider helm-ag haml-mode guru-mode guide-key grizzl god-mode gitignore-mode github-issues gitconfig-mode git-timemachine gist geiser flycheck-ocaml flx-ido floobits expand-region exec-path-from-shell esh-help elisp-slime-nav easy-kill dot-mode discover-my-major discover-clj-refactor diminish diff-hl cycle-quotes csv-mode crux crontab-mode company-quickhelp company-ansible comment-dwim-2 clojure-snippets clojure-cheatsheet cljr-helm clippy chruby buffer-move browse-kill-ring bm beacon anzu adoc-mode ace-window ac-cider)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(prelude-global-mode t)
@@ -93,7 +97,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#272822" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "#002b36" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 112 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
  '(cursor ((t (:background "red" :foreground "#272822" :inverse-video t))))
  '(fixed-pitch ((t (:family "Fantasque Sans Mono"))))
  '(font-lock-doc-face ((t (:foreground "dodger blue" :weight bold))))
