@@ -93,7 +93,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#272822" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "#272822" :foreground "#F8F8F2" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "PfEd" :family "Fantasque Sans Mono"))))
  '(cursor ((t (:background "red" :foreground "#272822" :inverse-video t))))
  '(fixed-pitch ((t (:family "Fantasque Sans Mono"))))
  '(font-lock-doc-face ((t (:foreground "dodger blue" :weight bold))))
