@@ -110,6 +110,13 @@
 ;; Set face color with customize
 ;; (set-face-background 'hiwin-face "gray80")
 
+;; Dim inactive buffers. Works way better than hiwin!
+(prelude-require-package 'auto-dim-other-buffers)
+(add-hook 'after-init-hook (lambda ()
+                             (when (fboundp 'auto-dim-other-buffers-mode)
+                               (auto-dim-other-buffers-mode t))))
+
+
 ;; Disable discoloration of long lines (and other stuff)
 ;; https://github.com/bbatsov/prelude#disabling-whitespace-mode
 ;; Toggle these two lines and repoen a file
@@ -151,10 +158,6 @@
 (add-to-list 'company-backends 'company-emoji)
 ;; (prelude-require-package 'emoji-cheat-sheet-plus)
 (prelude-require-package 'emojify)
-
-;; Highlight active window (only japanese docs)
-(prelude-require-package 'hiwin)
-(hiwin-activate)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
@@ -520,9 +523,11 @@
 (show-smartparens-mode 0)
 
 ;; Highlight all parens you're inside
+;; Not sure I love this.
 ;; https://www.emacswiki.org/emacs/HighlightParentheses
-(prelude-require-package 'highlight-parentheses)
-(global-highlight-parentheses-mode 1)
+;; (prelude-require-package 'highlight-parentheses)
+;; (global-highlight-parentheses-mode 1)
+;; Uncomment to test.
 ;; ((((((((()))))))))
 
 (custom-set-faces

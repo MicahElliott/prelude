@@ -712,3 +712,24 @@ Cheers,<br/>
 [Bozhidar](https://twitter.com/bbatsov)
 
 [badge-license]: https://img.shields.io/badge/license-GPL_3-green.svg
+
+
+## Micah’s additions
+
+### Colors ###
+
+### Behavior ###
+
+Registers should be easy to set, like in Vim.
+
+Keybinding         | Description
+-------------------|----------------------------------------------
+<kbd>M-S-m</kbd>   | Mark with register (`point-to-register`)
+<kbd>M-S-j</kbd>   | Mark with register (`jump-to-register`)
+
+### Windowing ###
+
+
+### Modules ###
+
+### Languages ###
