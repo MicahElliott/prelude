@@ -55,6 +55,7 @@
 ;; (load-theme 'tangotango t t)
 ;; (enable-theme 'tangotango)
 (prelude-require-package 'monokai-theme)
+(setq prelude-theme 'monokai-theme)
 (load-theme 'monokai t t)
 (enable-theme 'monokai)
 
