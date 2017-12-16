@@ -92,8 +92,8 @@
 ;; https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el
 ;; Disabling since might play badly with org-mode
 ;; Also screws with visible-mark.
-;; (prelude-require-package 'idle-highlight-mode)
-;; (add-hook 'prog-mode-hook 'idle-highlight-mode)
+(prelude-require-package 'idle-highlight-mode)
+(add-hook 'prog-mode-hook 'idle-highlight-mode)
 ;; (add-hook 'text-mode-hook 'idle-highlight-mode)
 
 ;; Highlight the point column (see `col-highlight' in customize)
@@ -981,9 +981,9 @@ that directory to make multiple eshell windows easier."
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'cider-mode))
 
-(setq cider-cljs-lein-repl
-      "(do (user/go)
-           (user/cljs-repl))")
+;; (setq cider-cljs-lein-repl
+;;       "(do (user/go)
+;;            (user/cljs-repl))")
 
 
 ;; ;; Puppet
