@@ -55,6 +55,7 @@
 ;; (load-theme 'tangotango t t)
 ;; (enable-theme 'tangotango)
 (prelude-require-package 'monokai-theme)
+(setq prelude-theme 'monokai-theme)
 (load-theme 'monokai t t)
 (enable-theme 'monokai)
 
@@ -152,12 +153,10 @@
 
 ;; Emoji!! 🐱 🐶 🔘 ☢ 🎿 😄 😱 😸 👸 👽 🙋 🚸
 ;; Also run gitmoji in terminal
-(prelude-require-package 'flycheck-status-emoji)
-;; (prelude-require-package 'ac-emoji)
-(prelude-require-package 'company-emoji)
-(add-to-list 'company-backends 'company-emoji)
-;; (prelude-require-package 'emoji-cheat-sheet-plus)
-(prelude-require-package 'emojify)
+;; (prelude-require-package 'flycheck-status-emoji)
+;; (prelude-require-package 'company-emoji)
+;; (add-to-list 'company-backends 'company-emoji)
+;; (prelude-require-package 'emojify)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Behavior
@@ -278,6 +277,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
+;;; Most should use C-S-
 
 ;; Ace Window
 ;; https://github.com/abo-abo/ace-window
@@ -360,10 +360,45 @@
 ;; move line up/down (already enabled) -- M-S-up
 ;; move-text-down
 
+(defun delete-window-balancedly ()
+  (interactive)
+  (delete-window)
+  (balance-windows))
+(global-set-key (kbd "C-S-z") 'delete-window-balancedly)
 
+(global-set-key (kbd "C-S-o") 'delete-other-windows) ; think "Only"
+(global-set-key (kbd "C-S-g") 'winner-undo)
+;; (global-set-key (kbd "C-S-+") 'balance-windows)
+
+;; Should change focus to new window.
+(defun split-window-balancedly ()
+  (interactive)
+  (split-window-horizontally)
+  (balance-windows)
+  (other-window 1)
+  (helm-projectile-find-file))
+;; (global-set-key (kbd "C-S-n") 'split-window-horizontally)
+(global-set-key (kbd "C-S-n") 'split-window-balancedly)
+
+;; Scroll without moving point; like Vim's C-y, C-e
+;; http://stackoverflow.com/a/10541426/326516
+(defun scroll-up-stay (arg)
+  (interactive "p")
+  (forward-line (* -1 arg))
+  (scroll-up arg))
+(defun scroll-down-stay (arg)
+  (interactive "p")
+  (scroll-down arg)
+  (forward-line arg))
+(global-set-key (kbd "C-S-T") 'scroll-up-stay)
+(global-set-key (kbd "C-S-Y") 'scroll-down-stay)
+;; (global-set-key (kbd "C-y") 'yank)
+;; (global-set-key (kbd "C-t") 'transpose-chars)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Packages
+
+(prelude-require-package 'lorem-ipsum)
 
 ;; Replacement for package-list-packages
 (prelude-require-package 'paradox)
@@ -434,6 +469,11 @@
 ;; ISSUE: Need to auto-enter typo-mode only while inside strings.
 ;; M-x typo-mode
 
+(prelude-require-package 'cycle-quotes)
+(prelude-require-package 'toggle-quotes)
+(global-set-key (kbd "C-'") 'toggle-quotes)
+;; TEST: Can't "do" this.
+
 ;; Magit: came with Super-based shortcuts; use C-c g ... instead
 (define-key prelude-mode-map (kbd "C-c g")  nil)
 (global-set-key (kbd "C-c g g") 'magit-status)
@@ -446,7 +486,7 @@
 ;; https://www.emacswiki.org/emacs/OrgJournal
 (prelude-require-package 'org-journal)
 (setq org-journal-dir "~/doc/journal/")
-(require 'org-journal)
+;; (require 'org-journal)
 ;; Seems to do too much; might have failed install
 ;; (prelude-require-package 'ox-reveal)
 ;; (prelude-require-package 'htmlize)
@@ -1050,21 +1090,6 @@ that directory to make multiple eshell windows easier."
     (when filename
       (gui-select-text filename))))
 
-
-;; Scroll without moving point; like Vim's C-y, C-e
-;; http://stackoverflow.com/a/10541426/326516
-(defun scroll-up-stay (arg)
-  (interactive "p")
-  (forward-line (* -1 arg))
-  (scroll-up arg))
-(defun scroll-down-stay (arg)
-  (interactive "p")
-  (scroll-down arg)
-  (forward-line arg))
-(global-set-key (kbd "C-S-T") 'scroll-up-stay)
-(global-set-key (kbd "C-S-Y") 'scroll-down-stay)
-;; (global-set-key (kbd "C-y") 'yank)
-;; (global-set-key (kbd "C-t") 'transpose-chars)
 
 
 (provide 'mde)
