@@ -93,8 +93,8 @@
 ;; https://github.com/nonsequitur/idle-highlight-mode/blob/master/idle-highlight-mode.el
 ;; Disabling since might play badly with org-mode
 ;; Also screws with visible-mark.
-;; (prelude-require-package 'idle-highlight-mode)
-;; (add-hook 'prog-mode-hook 'idle-highlight-mode)
+(prelude-require-package 'idle-highlight-mode)
+(add-hook 'prog-mode-hook 'idle-highlight-mode)
 ;; (add-hook 'text-mode-hook 'idle-highlight-mode)
 
 ;; Highlight the point column (see `col-highlight' in customize)
@@ -163,8 +163,10 @@
 ;;; Behavior
 
 ;; Register marking/jumping, closer to vim
-(global-set-key (kbd "M-M") 'point-to-register)
-(global-set-key (kbd "M-J") 'jump-to-register)
+(global-set-key (kbd "C-S-M") 'point-to-register)
+;; Hmm, M-J is needed for sp-join-sexp
+;; (global-set-key (kbd "M-J") 'jump-to-register)
+(global-set-key (kbd "C-S-J") 'jump-to-register)
 
 (global-set-key (kbd "C-M-_") 'text-scale-decrease)
 (global-set-key (kbd "C-M-+") 'text-scale-increase)
@@ -303,6 +305,8 @@
 
 (require 'key-chord)
 (key-chord-define-global "KK" 'aw-flip-window)
+(global-set-key (kbd "C-<tab>") 'aw-flip-window)
+(global-set-key (kbd "M-<tab>") 'ace-window)
 
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
@@ -470,16 +474,32 @@
 ;; ISSUE: Need to auto-enter typo-mode only while inside strings.
 ;; M-x typo-mode
 
+;; Simpler attempt at typography.
+(global-set-key (kbd "C-c '") "’")
+(global-set-key (kbd "C-c `'") "‘")
+(global-set-key (kbd "C-c \"") "“")
+(global-set-key (kbd "C-c /") "”")
+(global-set-key (kbd "C-c -") "—")
+
 (prelude-require-package 'cycle-quotes)
 (prelude-require-package 'toggle-quotes)
 (global-set-key (kbd "C-'") 'toggle-quotes)
 ;; TEST: Can't "do" this.
+
+;; Not working with bitbucket to to URL in .git/config
+;; (prelude-require-package 'browse-at-remote)
+(prelude-require-package 'git-messenger)
 
 ;; Magit: came with Super-based shortcuts; use C-c g ... instead
 (define-key prelude-mode-map (kbd "C-c g")  nil)
 (global-set-key (kbd "C-c g g") 'magit-status)
 (global-set-key (kbd "C-c g b") 'magit-blame)
 (global-set-key (kbd "C-c g l") 'magit-log-buffer-file)
+(global-set-key (kbd "C-c g t") 'git-timemachine-toggle)
+(global-set-key (kbd "C-c g t") 'git-timemachine-toggle)
+(global-set-key (kbd "C-c g B") 'browse-at-remote)
+(global-set-key (kbd "C-c g a") 'vc-annotate)
+(global-set-key (kbd "C-c g p") 'git-messenger:popup-message)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1071,6 +1091,8 @@ that directory to make multiple eshell windows easier."
 ;; ;; JavaScript
 ;; (prelude-require-package 'rjsx-mode)
 ;; (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+
+(prelude-require-package 'json-reformat)
 
 ;; ;; Nginx
 ;; (prelude-require-package 'nginx-mode)
