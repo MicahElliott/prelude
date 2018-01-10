@@ -147,8 +147,9 @@
 (prelude-require-package 'rainbow-delimiters)
 ;; (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-;; FIXME: why isn't superword working?
-;; (add-hook 'prog-mode-hook 'superword-mode)
+;; FIXME: why isn't superword working? Ah, because silly prelude was
+;; explicitly setting subword mode.
+(add-hook 'prog-mode-hook 'superword-mode)
 (superword-mode 1)
 
 ;; Emoji!! 🐱 🐶 🔘 ☢ 🎿 😄 😱 😸 👸 👽 🙋 🚸

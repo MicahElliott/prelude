@@ -38,7 +38,7 @@
 (eval-after-load 'clojure-mode
   '(progn
      (defun prelude-clojure-mode-defaults ()
-       (subword-mode +1)
+       (superword-mode +1)
        (run-hooks 'prelude-lisp-coding-hook))
 
      (setq prelude-clojure-mode-hook 'prelude-clojure-mode-defaults)
@@ -53,7 +53,8 @@
      (add-hook 'cider-mode-hook 'eldoc-mode)
 
      (defun prelude-cider-repl-mode-defaults ()
-       (subword-mode +1)
+       ;; (subword-mode +1)
+       (superword-mode +1)
        (run-hooks 'prelude-interactive-lisp-coding-hook))
 
      (setq prelude-cider-repl-mode-hook 'prelude-cider-repl-mode-defaults)
