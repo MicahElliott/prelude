@@ -1042,9 +1042,9 @@ that directory to make multiple eshell windows easier."
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'cider-mode))
 
-(setq cider-cljs-lein-repl
-      "(do (user/go)
-           (user/cljs-repl))")
+;; (setq cider-cljs-lein-repl
+;;       "(do (user/go)
+;;            (user/cljs-repl))")
 
 
 ;; ;; Puppet
