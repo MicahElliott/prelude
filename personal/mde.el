@@ -166,6 +166,7 @@
 (global-set-key (kbd "C-S-M") 'point-to-register)
 ;; Hmm, M-J is needed for sp-join-sexp
 ;; (global-set-key (kbd "M-J") 'jump-to-register)
+(global-set-key (kbd "M-J") 'sp-join-sexp)
 (global-set-key (kbd "C-S-J") 'jump-to-register)
 
 (global-set-key (kbd "C-M-_") 'text-scale-decrease)
@@ -1010,6 +1011,8 @@ that directory to make multiple eshell windows easier."
        ;; (cljr-add-keybindings-with-prefix "C-c m")
        (cljr-add-keybindings-with-prefix "C-c r")
        (global-set-key (kbd "C-c R") 'cljr-helm)
+       ;; Make similar to wrapping with M-(
+       (global-set-key (kbd "M-[") (lambda () (interactive) (sp-wrap-with-pair "[")))
        )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
