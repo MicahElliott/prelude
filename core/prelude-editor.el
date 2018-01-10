@@ -172,7 +172,8 @@ The body of the advice is in BODY."
 
 ;; advise all window switching functions
 (advise-commands "auto-save"
-                 (switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right)
+                 (switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right
+                                   aw-flip-window )
                  before
                  (prelude-auto-save-command))
 
