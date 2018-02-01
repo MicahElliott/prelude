@@ -73,6 +73,11 @@
 (global-set-key (kbd "M->") 'end-of-buffer)
 (global-set-key (kbd "M-}") 'beginning-of-buffer)
 
+;; Try vim-style word movement (start of word forward)
+(require 'misc)
+;; Replaces forward-word
+;; (global-set-key (kbd "M-f") 'forward-to-word)
+
 ;; Theme overrides
 ;; (set-face-attribute 'region nil :background "#999")
 
@@ -166,7 +171,6 @@
 (global-set-key (kbd "C-S-M") 'point-to-register)
 ;; Hmm, M-J is needed for sp-join-sexp
 ;; (global-set-key (kbd "M-J") 'jump-to-register)
-(global-set-key (kbd "M-J") 'sp-join-sexp)
 (global-set-key (kbd "C-S-J") 'jump-to-register)
 
 (global-set-key (kbd "C-M-_") 'text-scale-decrease)
@@ -316,7 +320,7 @@
 (global-set-key (kbd "C-S-s") 'windmove-left)
 (global-set-key (kbd "C-S-e") 'windmove-up)
 (global-set-key (kbd "C-S-d") 'windmove-down)
-;(define-key prelude-mode-map "<right>" nil)
+;; (define-key prelude-mode-map "<right>" nil)
 ;; Disable guru from touching these.
 (setq prelude-guru nil)
 (global-set-key (kbd "C-<right>") 'windmove-right)
@@ -475,6 +479,11 @@
 ;; ISSUE: Need to auto-enter typo-mode only while inside strings.
 ;; M-x typo-mode
 
+;; Edit in new buffer
+;; Better than poporg-edit?  Great for markdown.  Can even eval code.
+;; Keys: C-c ' (start), C-c C-c (commit)
+(prelude-require-package 'edit-indirect)
+
 ;; Simpler attempt at typography.
 (global-set-key (kbd "C-c '") "’")
 (global-set-key (kbd "C-c `'") "‘")
@@ -623,11 +632,17 @@
 
 ;; https://github.com/mickeynp/smart-scan
 ;; M-n,  M-p,  M-' (replace all), C-u M-' (scoped replace)
-;; Disabling since bad to have global, overrides in REPLs
-;; and does a bad job with extra syntax boundaries
+;; Disabling for problems:
+;; - bad to have global overrides in REPLs
+;; - does a bad job with extra syntax boundaries
+;; - jumps to end of words, wrecking idle-highlight-mode
 ;; (prelude-require-package 'smartscan)
 ;; (global-smartscan-mode 1)
 
+;; Easy occur searching
+;; (global-set-key (kbd "C-o") 'open-line)  ; replaced
+(global-set-key (kbd "C-o") 'helm-occur)
+(global-set-key (kbd "C-*") 'helm-occur)
 
 ;; Select/highlight with easy-kill
 ;; https://github.com/leoliu/easy-kill
@@ -1011,8 +1026,11 @@ that directory to make multiple eshell windows easier."
        ;; (cljr-add-keybindings-with-prefix "C-c m")
        (cljr-add-keybindings-with-prefix "C-c r")
        (global-set-key (kbd "C-c R") 'cljr-helm)
+       (global-set-key (kbd "M-J") 'sp-join-sexp) ; maybe already done by smartparens
        ;; Make similar to wrapping with M-(
        (global-set-key (kbd "M-[") (lambda () (interactive) (sp-wrap-with-pair "[")))
+       ;; Overrides tmm-menubar
+       (global-set-key (kbd "M-`") (lambda () (interactive) (sp-wrap-with-pair "`")))
        )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
@@ -1115,6 +1133,15 @@ that directory to make multiple eshell windows easier."
                     (buffer-file-name))))
     (when filename
       (gui-select-text filename))))
+
+(defun my-beginning-of-defun ()
+  "Jump to start of name of function, since often want to search it."
+  (interactive)
+  (beginning-of-defun)
+  (forward-word 2)
+  (backward-word))
+;; (global-set-key (kbd "C-M-a") 'beginning-of-defun) ; replaced
+(global-set-key (kbd "C-M-a") 'my-beginning-of-defun)
 
 
 
