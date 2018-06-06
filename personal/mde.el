@@ -74,7 +74,7 @@
 (global-set-key (kbd "M-}") 'beginning-of-buffer)
 
 ;; Try vim-style word movement (start of word forward)
-(require 'misc)
+;; (require 'misc)
 ;; Replaces forward-word
 ;; (global-set-key (kbd "M-f") 'forward-to-word)
 
@@ -215,6 +215,7 @@
 (prelude-require-package 'langtool)
 
 (setq tab-stop-list (number-sequence 2 200 2))
+
 
 ;; Zsh, hopefully
 (setq indent-tabs-mode t)
@@ -425,8 +426,16 @@
 (global-set-key (kbd "C-c J") 'string-inflection-java-style-cycle) ;; Cycle through Java styles
 (global-set-key (kbd "C-c K") 'string-inflection-kebab-case) ;; Cycle through Java styles
 
+
+(defun jump-to-bottom ()
+  (interactive)
+  (move-to-window-line-top-bottom)
+  (move-to-window-line-top-bottom)
+  )
+
 ;; smartparens overrides M-r, so changing default
 (global-set-key "\M-R" 'move-to-window-line-top-bottom)
+(global-set-key "\M-\C-R" 'jump-to-bottom)
 ;; Since already holding M-S-R, enable recenter (usually C-l) to also be M-S
 (global-set-key (kbd "M-L") 'recenter-top-bottom)
 
@@ -957,6 +966,29 @@ that directory to make multiple eshell windows easier."
 ;; (eval-after-load 'company
 ;; '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
+;; FIXME: need something like this to work to avoid opening new
+;; windows all the time for docs
+;; (pos-tip-show "foo bar")
+(defun my-describe-function (function)
+  "Display the full documentation of FUNCTION (a symbol) in tooltip."
+  (interactive (list (function-called-at-point)))
+  (if (null function)
+      (pos-tip-show
+       "** You didn't specify a function! **" '("red"))
+    (pos-tip-show
+     (with-temp-buffer
+       (let ((standard-output (current-buffer))
+             (help-xref-following t))
+         (prin1 function)
+         (princ " is ")
+         (describe-function-1 function)
+         (buffer-string)))
+     nil nil nil 0)))
+;; (define-key emacs-lisp-mode-map (kbd "C-;") 'my-describe-function)
+;; (global-set-key (kbd "C-;") 'my-describe-function)
+
+
+
 ;; (prelude-require-package 'clippy)
 ;; (setq clippy-tip-show-function #'clippy-popup-tip-show)
 
@@ -1055,6 +1087,9 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'cljr-helm)
 (prelude-require-package 'discover-clj-refactor)
 
+;; Use imenu to display list of functions.
+(global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
+
 (prelude-require-package 'ac-cider)
 (prelude-require-package 'helm-cider)
 (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
@@ -1137,6 +1172,7 @@ that directory to make multiple eshell windows easier."
 (defun my-beginning-of-defun ()
   "Jump to start of name of function, since often want to search it."
   (interactive)
+  (beginning-of-line)
   (beginning-of-defun)
   (forward-word 2)
   (backward-word))
