@@ -8,6 +8,7 @@
         hydra-cljr-code-menu/cljr-promote-function
         indent-for-tab-command
         org-self-insert-command
+        sp-backward-barf-sexp
         sp-backward-delete-char
         sp-forward-slurp-sexp
         sp-kill-word
@@ -22,5 +23,6 @@
         helm-M-x
         prelude-smart-open-line
         sp-backward-sexp
+        sp-backward-slurp-sexp
         sp-forward-barf-sexp
         ))
