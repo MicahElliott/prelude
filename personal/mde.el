@@ -412,7 +412,7 @@
 (prelude-require-package 'lorem-ipsum)
 
 ;; Replacement for package-list-packages
-(prelude-require-package 'paradox)
+;; (prelude-require-package 'paradox)
 
 ;; url view
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
@@ -1009,7 +1009,7 @@ that directory to make multiple eshell windows easier."
 ;; (prelude-require-package 'monroe)
 ;; (add-hook 'clojure-mode-hook 'clojure-enable-monroe)
 ;; (prelude-require-package 'hydra)
-(prelude-require-package 'clj-refactor)
+;; (prelude-require-package 'clj-refactor)
 (prelude-require-package 'clojure-snippets) ; yas for clojure
 (prelude-require-package 'clojure-cheatsheet)
 (prelude-require-package 'flycheck-clojure)
@@ -1045,7 +1045,7 @@ that directory to make multiple eshell windows easier."
 ;; https://github.com/clojure-emacs/clj-refactor.el
 (defun my-clojure-mode-hook () "Foo bar."
        (message "in my-clojure-mode-hook")
-       (clj-refactor-mode 1)
+       ;; (clj-refactor-mode 1)
        (yas-minor-mode 1) ; for adding require/use/import statements
        ;; This choice of keybinding leaves cider-macroexpand-1 unbound
        (global-set-key (kbd "M-h") 'mark-paragraph)
@@ -1056,8 +1056,8 @@ that directory to make multiple eshell windows easier."
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
        ;; (cljr-add-keybindings-with-prefix "C-c m")
-       (cljr-add-keybindings-with-prefix "C-c r")
-       (global-set-key (kbd "C-c R") 'cljr-helm)
+       ;; (cljr-add-keybindings-with-prefix "C-c r")
+       ;; (global-set-key (kbd "C-c R") 'cljr-helm)
        (global-set-key (kbd "M-J") 'sp-join-sexp) ; maybe already done by smartparens
        ;; Make similar to wrapping with M-(
        (global-set-key (kbd "M-[") (lambda () (interactive) (sp-wrap-with-pair "[")))
@@ -1084,8 +1084,8 @@ that directory to make multiple eshell windows easier."
 
 ;; Simply bind `cljr-helm` to a key (I'd suggest C-c r) in Clojure
 ;; mode, and you're ready to go.
-(prelude-require-package 'cljr-helm)
-(prelude-require-package 'discover-clj-refactor)
+;; (prelude-require-package 'cljr-helm)
+;; (prelude-require-package 'discover-clj-refactor)
 
 ;; Use imenu to display list of functions.
 (global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
@@ -1150,8 +1150,15 @@ that directory to make multiple eshell windows easier."
 
 (prelude-require-package 'json-reformat)
 
+;;;; Random
+
 ;; ;; Nginx
 ;; (prelude-require-package 'nginx-mode)
+
+;; (prelude-require-package 'restclient)
+;; (prelude-require-package 'restclient-helm)
+;; (prelude-require-package 'restclient-test)
+;; (prelude-require-package 'company-restclient)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Other non-programming modes
