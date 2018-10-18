@@ -23,11 +23,13 @@
    (quote
     ("708df3cbb25425ccbf077a6e6f014dc3588faba968c90b74097d11177b711ad1" default)))
  '(fci-rule-color "#383838")
+ '(flycheck-pycheckers-checkers (quote (pylint pep8 pyflakes bandit)))
  '(global-superword-mode t)
  '(global-yascroll-bar-mode t)
  '(helm-ag-ignore-patterns (quote ("vendor/")))
  '(helm-ag-use-agignore t)
  '(helm-ff-search-library-in-sexp t)
+ '(helm-window-prefer-horizontal-split t)
  '(hl-paren-colors (quote ("red" "IndianRed1" "IndianRed3" "IndianRed4")))
  '(hl-paren-delay 0)
  '(ido-default-file-method (quote selected-window))
@@ -42,7 +44,7 @@
  '(org-agenda-files (quote ("~/proj/woodpecker/preso/osb.org")))
  '(package-selected-packages
    (quote
-    (restclient-test restclient-helm company-restclient typescript-mode edit-indirect swagger-to-org git-messenger browse-at-remote lorem-ipsum auto-dim-other-buffers emojify emoji-cheat-sheet-plus emoji-cheat-sheet company-emoji ac-emoji flycheck-status-emoji flymd company-flx string-inflection highlight-parentheses pos-tip multiple-cursors parinfer counsel cucumber-goto-step feature-mode ac-octave nginx-mode rjsx-mode inf-clojure flycheck-joker highlight-numbers company-jedi elpy jedi fontawesome org-bullets org-tree-slide epresent htmlize ox-reveal command-log-mode smart-comment hide-comnt fic-mode sotclojure monroe docker dockerfile-mode docker-mode intero protobuf-mode pkgbuild-mode typo typopunct centered-cursor-mode speed-type sublimity-scroll yascroll smart-mode-line-powerline-theme dashboard paradox elfeed crosshairs hiwin monokai-theme flymake-puppet puppet-mode wrap-region focus zlc bash-completion ansible-doc ansible idle-highlight-mode f sx prelude-helm-everywhere dired+ langtool pretty-mode clojure-mode-extra-font-locking jump-char flycheck-tip flycheck-pos-tip kibit-helper slamhound helm-clojuredocs flycheck-clojure col-highlight origami hideshowvis ghc flymake-hlint haskell-mode corral flymake-coffee coffee-mode all-the-icons neotree zop-to-char zenburn-theme yari yaml-mode which-key web-mode volatile-highlights visible-mark utop unfill undo-tree tuareg toggle-quotes tangotango-theme smex smartrep smartparens smart-mode-line shrink-whitespace show-marks ruby-tools rubocop rinari relative-line-numbers rainbow-mode rainbow-delimiters ov org-journal operate-on-number multi-term multi-eshell move-text markdown-mode mark-tools magit livescript-mode linum-relative key-chord json-mode imenu-anywhere ido-ubiquitous helm-projectile helm-descbinds helm-cider helm-ag haml-mode guru-mode guide-key grizzl god-mode gitignore-mode github-issues gitconfig-mode git-timemachine gist geiser flycheck-ocaml flx-ido floobits expand-region exec-path-from-shell esh-help elisp-slime-nav easy-kill dot-mode discover-my-major diminish diff-hl cycle-quotes csv-mode crux crontab-mode company-quickhelp company-ansible comment-dwim-2 clojure-snippets clojure-cheatsheet clippy chruby buffer-move browse-kill-ring bm beacon anzu adoc-mode ace-window ac-cider)))
+    (qpipenv pippel highlight-quoted highlight cider-eval-sexp-fu pytest python-pytest importmagic ein flycheck-pycheckers pylint py-autopep8 pipenv anaconda-mode helm-emmet company-web emmet-mode graphql-mode zencoding-mode discover-clj-refactor cljr-helm clj-refactor sotclojure paradox restclient-test restclient-helm company-restclient edit-indirect swagger-to-org git-messenger browse-at-remote lorem-ipsum auto-dim-other-buffers emojify emoji-cheat-sheet-plus emoji-cheat-sheet company-emoji ac-emoji flycheck-status-emoji flymd company-flx string-inflection highlight-parentheses pos-tip multiple-cursors parinfer counsel cucumber-goto-step feature-mode ac-octave nginx-mode rjsx-mode inf-clojure flycheck-joker highlight-numbers company-jedi elpy jedi fontawesome org-bullets org-tree-slide epresent htmlize ox-reveal command-log-mode smart-comment hide-comnt fic-mode monroe docker dockerfile-mode docker-mode intero protobuf-mode pkgbuild-mode typo typopunct centered-cursor-mode speed-type sublimity-scroll yascroll smart-mode-line-powerline-theme dashboard elfeed crosshairs hiwin monokai-theme flymake-puppet puppet-mode wrap-region focus zlc bash-completion ansible-doc ansible idle-highlight-mode f sx prelude-helm-everywhere dired+ langtool pretty-mode clojure-mode-extra-font-locking jump-char flycheck-tip flycheck-pos-tip kibit-helper slamhound helm-clojuredocs flycheck-clojure col-highlight origami hideshowvis ghc flymake-hlint haskell-mode corral flymake-coffee coffee-mode all-the-icons neotree zop-to-char yari yaml-mode which-key web-mode volatile-highlights visible-mark utop unfill undo-tree tuareg toggle-quotes tangotango-theme smex smartrep smartparens smart-mode-line shrink-whitespace show-marks ruby-tools rubocop rinari relative-line-numbers rainbow-mode rainbow-delimiters ov org-journal operate-on-number multi-term multi-eshell move-text markdown-mode mark-tools magit livescript-mode linum-relative key-chord json-mode imenu-anywhere ido-ubiquitous helm-projectile helm-descbinds helm-cider helm-ag haml-mode guru-mode guide-key grizzl god-mode gitignore-mode github-issues gitconfig-mode git-timemachine gist geiser flycheck-ocaml flx-ido floobits expand-region exec-path-from-shell esh-help elisp-slime-nav easy-kill dot-mode discover-my-major diminish diff-hl cycle-quotes csv-mode crux crontab-mode company-quickhelp company-ansible comment-dwim-2 clojure-snippets clojure-cheatsheet clippy chruby buffer-move browse-kill-ring bm beacon anzu adoc-mode ace-window ac-cider)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(prelude-global-mode t)
@@ -95,6 +97,7 @@
  '(cursor ((t (:background "red" :foreground "#272822" :inverse-video t))))
  '(fixed-pitch ((t (:family "Fantasque Sans Mono"))))
  '(font-lock-doc-face ((t (:foreground "dodger blue" :weight bold))))
+ '(font-lock-function-name-face ((t (:foreground "#A6E22E" :underline t :weight ultra-bold))))
  '(font-lock-type-face ((t (:foreground "#66D9EF" :slant italic :weight bold))))
  '(idle-highlight ((t (:background "blue"))))
  '(lazy-highlight ((t (:inherit highlight :background "dark orange" :foreground "black" :weight bold))))

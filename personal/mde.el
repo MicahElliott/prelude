@@ -108,6 +108,10 @@
 (prelude-require-package 'crosshairs)
 ;; (column-highlight-mode t)
 
+;; Don't seem to do a lot without some real study/effort
+;; (prelude-require-package 'highlight)
+;; (prelude-require-package 'highlight-quoted)
+
 ;; Make the active window more visible than others
 ;; https://github.com/yoshida-mediba/hiwin-mode
 ;; Ugh, make cider repl go blank when switching out
@@ -154,6 +158,7 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; FIXME: why isn't superword working? Ah, because silly prelude was
 ;; explicitly setting subword mode.
+;; (add-hook 'prog-mode-hook 'superword-mode)
 (add-hook 'prog-mode-hook 'superword-mode)
 (superword-mode 1)
 
@@ -172,6 +177,15 @@
 ;; Hmm, M-J is needed for sp-join-sexp
 ;; (global-set-key (kbd "M-J") 'jump-to-register)
 (global-set-key (kbd "C-S-J") 'jump-to-register)
+
+(global-set-key (kbd "C-S-i") 'flycheck-next-error)
+
+
+;; http://lotabout.me/orgwiki/emacs-helm.html
+;; (global-set-key (kbd "C-S-h") 'helm-command-prefix)
+(global-set-key (kbd "C-S-h") 'eshell)
+;; Speed up helm? https://github.com/emacs-helm/helm/wiki/FAQ#slow-frame-and-window-popup-in-emacs-26
+(setq x-wait-for-event-timeout nil)
 
 (global-set-key (kbd "C-M-_") 'text-scale-decrease)
 (global-set-key (kbd "C-M-+") 'text-scale-increase)
@@ -283,6 +297,7 @@
 
 ;; Jump to open file in neotree
 (setq neo-smart-open t)
+(global-set-key (kbd "C-S-l") 'neotree-toggle)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
@@ -375,10 +390,22 @@
   (interactive)
   (delete-window)
   (balance-windows))
+(defun kill-window-balancedly ()
+  (interactive)
+  (kill-current-buffer)
+  (delete-window)
+  (balance-windows))
+;; (global-set-key (kbd "C-z")   'delete-window-balancedly)
 (global-set-key (kbd "C-S-z") 'delete-window-balancedly)
+(global-set-key (kbd "C-S-k") 'kill-window-balancedly)
 
+(global-set-key (kbd "C-S-b") 'helm-mini)
+
+
+;; Window buffer switching
 (global-set-key (kbd "C-S-o") 'delete-other-windows) ; think "Only"
-(global-set-key (kbd "C-S-g") 'winner-undo)
+;; Just use C-c left-arrow
+;; (global-set-key (kbd "C-S-g") 'winner-undo)
 ;; (global-set-key (kbd "C-S-+") 'balance-windows)
 
 ;; Should change focus to new window.
@@ -387,7 +414,8 @@
   (split-window-horizontally)
   (balance-windows)
   (other-window 1)
-  (helm-projectile-find-file))
+  ;; (helm-projectile-find-file)
+  )
 ;; (global-set-key (kbd "C-S-n") 'split-window-horizontally)
 (global-set-key (kbd "C-S-n") 'split-window-balancedly)
 
@@ -471,9 +499,43 @@
                                         ;(add-to-list 'auto-mode-alist (cons "\\.txt\\'" 'adoc-mode))
 (add-hook 'adoc-mode-hook (lambda () (buffer-face-mode t)))
 
+(add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
+
 ;;; Commenter: still stuggling with this
 (prelude-require-package 'comment-dwim-2)
 (global-set-key (kbd "M-;") 'comment-dwim-2)
+
+(defun clj-comment ()
+  (interactive)
+  ;; (beginning-of-defun)
+  (insert "#_"))
+
+
+(defun clj-find-ignore-macro ()
+  (interactive)
+  ;; (while (not (= (char-after) )))
+  (save-excursion
+    (while (and (sp-backward-up-sexp) (not (= (char-before) ?_)))
+      (clj-find-ignore-macro)
+      (print "going up")
+      ;; (if (not (= (char-before) ?_))
+      ;; (clj-find-ignore-macro)))
+      )))
+(global-set-key (kbd "C-c ;") 'clj-find-ignore-macro)
+
+(defun clj-comment ()
+  "Do a Clojure-style `#_' un/commenting of “ignore” macro for sexps.
+Somewhat helpful for debugging.
+Requires smartparens (for now)."
+  (interactive)
+  (save-excursion
+    (when (not (= (char-after) ?\())
+      ;; (backward-sexp) ; not far enough and weird error sometimes
+      (sp-backward-up-sexp)) ; smartparens is easier
+    (if (= (char-before) ?_)
+        (delete-char -2)
+      (insert "#_"))))
+(global-set-key (kbd "C-c ;") 'clj-comment)
 
 ;; Typopunct: fancy/pretty quotes, etc: — ‘’ “”
 ;; enable: M-x typopunct-mode
@@ -510,15 +572,27 @@
 (prelude-require-package 'git-messenger)
 
 ;; Magit: came with Super-based shortcuts; use C-c g ... instead
-(define-key prelude-mode-map (kbd "C-c g")  nil)
-(global-set-key (kbd "C-c g g") 'magit-status)
-(global-set-key (kbd "C-c g b") 'magit-blame)
-(global-set-key (kbd "C-c g l") 'magit-log-buffer-file)
-(global-set-key (kbd "C-c g t") 'git-timemachine-toggle)
-(global-set-key (kbd "C-c g t") 'git-timemachine-toggle)
-(global-set-key (kbd "C-c g B") 'browse-at-remote)
-(global-set-key (kbd "C-c g a") 'vc-annotate)
-(global-set-key (kbd "C-c g p") 'git-messenger:popup-message)
+(define-key prelude-mode-map (kbd "C-c C-g")  nil)
+(global-set-key (kbd "C-S-g") 'magit-status)
+(global-set-key (kbd "C-c C-g g") 'magit-status)
+(global-set-key (kbd "C-c C-g b") 'magit-blame)
+(global-set-key (kbd "C-c C-g l") 'magit-log-buffer-file)
+(global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
+(global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
+(global-set-key (kbd "C-c C-g B") 'browse-at-remote)
+(global-set-key (kbd "C-c C-g a") 'vc-annotate)
+(global-set-key (kbd "C-c C-g p") 'git-messenger:popup-message)
+
+;; Perf: https://magit.vc/manual/magit/Performance.html#Performance
+(setq vc-handled-backends nil)
+
+;; Projectile changed!
+;; (global-set-key (kbd "C-c p p") 'git-messenger:popup-message)
+;; (setq projectile-keymap-prefix (kbd "C-c C-p"))
+;; (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
+;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;; (define-key projectile-mode-map (kbd "C-c C-f") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-S-p") 'projectile-command-map)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -719,6 +793,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Language Setups
 
+;;; HTML
+;; (prelude-require-package 'zencoding-mode)
+;; (add-hook 'sgml-mode-hook 'zencoding-mode) ;; Auto-start on any markup modes
+(prelude-require-package 'emmet-mode)
+(prelude-require-package 'company-web)
+(prelude-require-package 'helm-emmet)
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook  'emmet-mode)
+(setq emmet-move-cursor-between-quotes t)
 
 ;; Need to figure out how to only load this for shell-mode
 ;; ;; Shell
@@ -734,20 +817,21 @@
 ;;   "Keymap for `ruby-tools-mode'.")
 
 
-;; ;; Python
-;; (prelude-require-package 'elpy)
-;; (elpy-enable)
-;; ;; (prelude-require-package 'jedi)
-;; (prelude-require-package 'company-jedi)
-;; (defun my/python-mode-hook ()
-;;   (add-to-list 'company-backends 'company-jedi))
-;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+;;; Python
+(prelude-require-package 'elpy)
+(elpy-enable)
+(setq elpy-rpc-backend "jedi")
+(prelude-require-package 'jedi)
+(prelude-require-package 'company-jedi)
+(defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+(add-hook 'python-mode-hook 'my/python-mode-hook)
 
-;; (setq-default py-shell-name "ipython")
-;; (setq-default py-which-bufname "IPython")
-;; ;; use the wx backend, for both mayavi and matplotlib
-;; (setq py-python-command-args '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
-;; (setq py-force-py-shell-name-p t)
+(setq-default py-shell-name "ipython")
+(setq py-force-py-shell-name-p t)
+(setq-default py-which-bufname "IPython")
+;; use the wx backend, for both mayavi and matplotlib
+(setq py-python-command-args '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
 
 ;; switch to the interpreter after executing code
 (setq py-shell-switch-buffers-on-execute-p t)
@@ -757,7 +841,38 @@
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
-;; ;; Ruby
+(prelude-require-package 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+
+(setq python-shell-interpreter "ipython")
+
+(prelude-require-package 'pippel)
+
+(prelude-require-package 'pipenv)
+(setq pipenv-projectile-after-switch-function
+      #'pipenv-projectile-after-switch-extended)
+
+(prelude-require-package 'py-autopep8)
+
+(prelude-require-package 'pylint)
+(add-hook 'python-mode-hook 'pylint-add-menu-items)
+(add-hook 'python-mode-hook 'pylint-add-key-bindings)
+
+(prelude-require-package 'flycheck-pycheckers)
+(with-eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup))
+
+;; (prelude-require-package 'importmagic) ; C-c C-l
+;; (define-key importmagic-mode-map (kbd "C-c C-f") 'importmagic-fix-symbol-at-point)
+
+;; (prelude-require-package 'ein)
+
+(prelude-require-package 'python-pytest)
+(prelude-require-package 'pytest)
+
+
+;;; Ruby
 ;; (prelude-require-package 'chruby)
 (prelude-require-package 'rubocop)
 (add-hook 'ruby-mode-hook 'rubocop-mode)
@@ -779,7 +894,9 @@
 
 ;; Disable prompt for kill
 ;; http://superuser.com/questions/354849/emacs-kill-buffer-without-prompt
-(global-set-key (kbd "C-x k") 'kill-this-buffer)
+;; (global-set-key (kbd "C-x k") 'kill-this-buffer)
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-c k") 'kill-current-buffer)
 
 ;; ;;; Haskell
 ;; (prelude-require-package 'ghc)
@@ -1005,11 +1122,13 @@ that directory to make multiple eshell windows easier."
 
 ;; NOTE: also installed to ~/.lein/profiles.clj: kibit, eastwood
 (prelude-require-package 'smartparens)  ; better paredit, sp-*
+(add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (prelude-require-package 'cider)
+(prelude-require-package 'cider-eval-sexp-fu)
 ;; (prelude-require-package 'monroe)
 ;; (add-hook 'clojure-mode-hook 'clojure-enable-monroe)
 ;; (prelude-require-package 'hydra)
-;; (prelude-require-package 'clj-refactor)
+(prelude-require-package 'clj-refactor)
 (prelude-require-package 'clojure-snippets) ; yas for clojure
 (prelude-require-package 'clojure-cheatsheet)
 (prelude-require-package 'flycheck-clojure)
@@ -1021,7 +1140,7 @@ that directory to make multiple eshell windows easier."
 ;; Not working
 (prelude-require-package 'flycheck-joker)
 (require 'flycheck-joker)
-;; (prelude-require-package 'kibit-helper)
+(prelude-require-package 'kibit-helper)
 (prelude-require-package 'sotclojure)
 (define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
 (setq error-tip-notify-keep-messages t)
@@ -1045,7 +1164,7 @@ that directory to make multiple eshell windows easier."
 ;; https://github.com/clojure-emacs/clj-refactor.el
 (defun my-clojure-mode-hook () "Foo bar."
        (message "in my-clojure-mode-hook")
-       ;; (clj-refactor-mode 1)
+       (clj-refactor-mode 1)
        (yas-minor-mode 1) ; for adding require/use/import statements
        ;; This choice of keybinding leaves cider-macroexpand-1 unbound
        (global-set-key (kbd "M-h") 'mark-paragraph)
@@ -1053,11 +1172,13 @@ that directory to make multiple eshell windows easier."
        (setq cider-save-file-on-load t)
        (setq cider-prompt-for-symbol nil)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
+       ;; (cljr-add-keybindings-with-prefix "C-S-r")
+       ;; (cljr-add-keybindings-with-prefix "C-c m")
+       (global-set-key (kbd "C-c R") 'cljr-helm)
+       (global-set-key (kbd "C-S-r") 'cljr-helm)
+       (global-set-key (kbd "C-c r") 'cljr-helm)
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
-       ;; (cljr-add-keybindings-with-prefix "C-c m")
-       ;; (cljr-add-keybindings-with-prefix "C-c r")
-       ;; (global-set-key (kbd "C-c R") 'cljr-helm)
        (global-set-key (kbd "M-J") 'sp-join-sexp) ; maybe already done by smartparens
        ;; Make similar to wrapping with M-(
        (global-set-key (kbd "M-[") (lambda () (interactive) (sp-wrap-with-pair "[")))
@@ -1084,19 +1205,20 @@ that directory to make multiple eshell windows easier."
 
 ;; Simply bind `cljr-helm` to a key (I'd suggest C-c r) in Clojure
 ;; mode, and you're ready to go.
-;; (prelude-require-package 'cljr-helm)
-;; (prelude-require-package 'discover-clj-refactor)
+(prelude-require-package 'cljr-helm)
+(prelude-require-package 'discover-clj-refactor)
 
 ;; Use imenu to display list of functions.
 (global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
 
 (prelude-require-package 'ac-cider)
 (prelude-require-package 'helm-cider)
-(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'cider-mode))
+;; Somehow these break cider altogether!
+;;(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+;; (add-hook 'cider-mode-hook 'ac-cider-setup)
+;; (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+;; (eval-after-load "auto-complete"
+;;   '(add-to-list 'ac-modes 'cider-mode))
 
 ;; (setq cider-cljs-lein-repl
 ;;       "(do (user/go)

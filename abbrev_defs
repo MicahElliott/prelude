@@ -55,8 +55,6 @@
 
 (define-abbrev-table 'cider-test-report-mode-abbrev-table '())
 
-(define-abbrev-table 'cljr--change-signature-mode-abbrev-table '())
-
 (define-abbrev-table 'clojure-mode-abbrev-table '())
 
 (define-abbrev-table 'clojurec-mode-abbrev-table '())

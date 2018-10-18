@@ -5,6 +5,7 @@
       '(
         beginning-of-buffer
         cljr-add-missing-libspec
+        helm-maybe-exit-minibuffer
         hydra-cljr-code-menu/cljr-promote-function
         indent-for-tab-command
         org-self-insert-command
