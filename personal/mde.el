@@ -243,7 +243,7 @@
 ;; (define-key key-translation-map [?\C-h] [?\C-?])
 ;; (global-set-key (kbd "C-S-h") 'backward-kill-word)
 
-;; (prelude-require-package 'yasnippet)
+(prelude-require-package 'yasnippet)
 ;; (setq yas-snippet-dirs
 ;;       '("~/.emacs.d/snippets"                 ;; personal snippets
 ;;         ))
@@ -326,6 +326,11 @@
 
 (require 'key-chord)
 (key-chord-define-global "KK" 'aw-flip-window)
+
+;; Not sure where this one is coming from but gets in the way every
+;; time "clj" is typed
+(key-chord-define-global "lj" nil)
+
 (global-set-key (kbd "C-<tab>") 'aw-flip-window)
 (global-set-key (kbd "M-<tab>") 'ace-window)
 
@@ -429,8 +434,8 @@
   (interactive "p")
   (scroll-down arg)
   (forward-line arg))
-(global-set-key (kbd "C-S-T") 'scroll-up-stay)
-(global-set-key (kbd "C-S-Y") 'scroll-down-stay)
+(global-set-key (kbd "C-S-E") 'scroll-up-stay)
+(global-set-key (kbd "C-S-D") 'scroll-down-stay)
 ;; (global-set-key (kbd "C-y") 'yank)
 ;; (global-set-key (kbd "C-t") 'transpose-chars)
 
@@ -505,37 +510,33 @@
 (prelude-require-package 'comment-dwim-2)
 (global-set-key (kbd "M-;") 'comment-dwim-2)
 
-(defun clj-comment ()
-  (interactive)
-  ;; (beginning-of-defun)
-  (insert "#_"))
 
 
-(defun clj-find-ignore-macro ()
-  (interactive)
-  ;; (while (not (= (char-after) )))
-  (save-excursion
-    (while (and (sp-backward-up-sexp) (not (= (char-before) ?_)))
-      (clj-find-ignore-macro)
-      (print "going up")
-      ;; (if (not (= (char-before) ?_))
-      ;; (clj-find-ignore-macro)))
-      )))
-(global-set-key (kbd "C-c ;") 'clj-find-ignore-macro)
+;; (defun clj-find-ignore-macro ()
+;;   (interactive)
+;;   ;; (while (not (= (char-after) )))
+;;   (save-excursion
+;;     (while (and (sp-backward-up-sexp) (not (= (char-before) ?_)))
+;;       (clj-find-ignore-macro)
+;;       (print "going up")
+;;       ;; (if (not (= (char-before) ?_))
+;;       ;; (clj-find-ignore-macro)))
+;;       )))
+;; (global-set-key (kbd "C-c ;") 'clj-find-ignore-macro)
 
-(defun clj-comment ()
-  "Do a Clojure-style `#_' un/commenting of “ignore” macro for sexps.
-Somewhat helpful for debugging.
-Requires smartparens (for now)."
-  (interactive)
-  (save-excursion
-    (when (not (= (char-after) ?\())
-      ;; (backward-sexp) ; not far enough and weird error sometimes
-      (sp-backward-up-sexp)) ; smartparens is easier
-    (if (= (char-before) ?_)
-        (delete-char -2)
-      (insert "#_"))))
-(global-set-key (kbd "C-c ;") 'clj-comment)
+;; (defun clj-comment ()
+;;   "Do a Clojure-style `#_' un/commenting of “ignore” macro for sexps.
+;; Somewhat helpful for debugging.
+;; Requires smartparens (for now)."
+;;   (interactive)
+;;   (save-excursion
+;;     (when (not (= (char-after) ?\())
+;;       ;; (backward-sexp) ; not far enough and weird error sometimes
+;;       (sp-backward-up-sexp)) ; smartparens is easier
+;;     (if (= (char-before) ?_)
+;;         (delete-char -2)
+;;       (insert "#_"))))
+;; (global-set-key (kbd "C-c ;") 'clj-comment)
 
 ;; Typopunct: fancy/pretty quotes, etc: — ‘’ “”
 ;; enable: M-x typopunct-mode
@@ -789,6 +790,11 @@ Requires smartparens (for now)."
 ;; (add-hook 'LaTeX-mode-hook 'command-log-mode)
 
 
+;; Highlight/navigate TODO, FIXME, etc
+;; C-c # ...
+;; (prelude-require-package 'comment-tags)
+;; (add-hook 'prog-mode-hook 'comment-tags-mode)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Language Setups
@@ -827,9 +833,9 @@ Requires smartparens (for now)."
   (add-to-list 'company-backends 'company-jedi))
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
-(setq-default py-shell-name "ipython")
+;; (setq-default py-shell-name "ipython")
 (setq py-force-py-shell-name-p t)
-(setq-default py-which-bufname "IPython")
+;; (setq-default py-which-bufname "IPython")
 ;; use the wx backend, for both mayavi and matplotlib
 (setq py-python-command-args '("--gui=wx" "--pylab=wx" "-colors" "Linux"))
 
@@ -845,7 +851,7 @@ Requires smartparens (for now)."
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
-(setq python-shell-interpreter "ipython")
+;; (setq python-shell-interpreter "ipython")
 
 (prelude-require-package 'pippel)
 
@@ -1116,6 +1122,11 @@ that directory to make multiple eshell windows easier."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Clojure
 
+;;; yay, my own commenter!
+(prelude-require-package 'clj-comment)
+;; (add-hook 'clojure-mode-hook #'clj-comment)
+;; (global-set-key (kbd "C-c ;") 'clj-comment)
+
 (eval-after-load 'clojure-mode
   '(progn
      (define-key clojure-mode-map (kbd "C-c C-h") #'clojure-cheatsheet)))
@@ -1177,6 +1188,7 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "C-c R") 'cljr-helm)
        (global-set-key (kbd "C-S-r") 'cljr-helm)
        (global-set-key (kbd "C-c r") 'cljr-helm)
+       (global-set-key (kbd "C-S-T") 'cider-test-commands-map)
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
        (global-set-key (kbd "M-J") 'sp-join-sexp) ; maybe already done by smartparens
@@ -1223,6 +1235,27 @@ that directory to make multiple eshell windows easier."
 ;; (setq cider-cljs-lein-repl
 ;;       "(do (user/go)
 ;;            (user/cljs-repl))")
+
+;; (prelude-require-package 'emidje)
+;; (eval-after-load 'cider #'emidje-setup)
+
+(defun my-cider-find-var (arg)
+  (interactive "p")
+  (cider-find-var arg)
+  (recenter-top-bottom))
+
+
+(defun my-create-cider-repl-window ()
+  "Create a new right-most window with cider repl jacked-in."
+  ;; Manually go to right-most window
+  (interactive)
+  (split-window-balancedly)
+  ;; open core.clj
+  (cider-jack-in-clj nil)
+  (delete-window-balancedly)
+  (crux-switch-to-previous-buffer))
+(global-set-key (kbd "C-S-x") 'my-create-cider-repl-window)
+
 
 
 ;; ;; Puppet
