@@ -434,8 +434,8 @@
   (interactive "p")
   (scroll-down arg)
   (forward-line arg))
-(global-set-key (kbd "C-S-E") 'scroll-up-stay)
-(global-set-key (kbd "C-S-D") 'scroll-down-stay)
+;; (global-set-key (kbd "C-S-E") 'scroll-up-stay)
+;; (global-set-key (kbd "C-S-D") 'scroll-down-stay)
 ;; (global-set-key (kbd "C-y") 'yank)
 ;; (global-set-key (kbd "C-t") 'transpose-chars)
 
@@ -594,6 +594,7 @@
 ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 ;; (define-key projectile-mode-map (kbd "C-c C-f") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-S-p") 'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-S-p s") 'helm-projectile-ag)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

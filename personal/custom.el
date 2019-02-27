@@ -11,6 +11,33 @@
  '(blink-cursor-mode t)
  '(bookmark-default-file "/home/mde/.emacs.d/savefile/bookmarks")
  '(browse-url-browser-function (quote browse-url-firefox))
+ '(cljr-favor-private-functions nil)
+ '(cljr-hotload-dependencies t)
+ '(cljr-magic-require-namespaces
+   (quote
+    (("io" . "clojure.java.io")
+     ("set" . "clojure.set")
+     ("str" . "clojure.string")
+     ("walk" . "clojure.walk")
+     ("zip" . "clojure.zip")
+     ("json" . "cheshire.core")
+     ("as" . "clojure.core.async")
+     ("mat" . "clojure.core.matrix")
+     ("edn" . "clojure.edn")
+     ("clojure.pprint" . "pp")
+     ("clojure.spec.alpha" . "spec")
+     ("clojure.data.csv" . "csv")
+     ("time" . "clj-time.core")
+     ("spr" . "com.rpl.specter")
+     ("http" . "clj-http.client")
+     ("log" . "clojure.tools.logging")
+     ("e" . "taoensso.encore")
+     ("s3" . "amazonica.aws.s3")
+     ("sql" . "hugsql.core")
+     ("yaml" . "clj-yaml.core")
+     ("sh" . "clojure.java.shell")
+     ("w" . "clojure.walk")
+     ("fs" . "me.raynes.fs"))))
  '(company-emoji-aliases
    (quote
     ((:woman_man_holding_hands: . ":couple:")
@@ -26,6 +53,7 @@
  '(flycheck-pycheckers-checkers (quote (pylint pep8 pyflakes bandit)))
  '(global-superword-mode t)
  '(global-yascroll-bar-mode t)
+ '(helm-ag-always-set-extra-option t)
  '(helm-ag-ignore-patterns (quote ("vendor/")))
  '(helm-ag-use-agignore t)
  '(helm-ff-search-library-in-sexp t)
@@ -37,14 +65,14 @@
  '(magit-log-arguments (quote ("--graph" "--color" "--decorate" "--stat" "-n10")))
  '(markdown-header-scaling t)
  '(markdown-wiki-link-search-subdirectories t)
- '(neo-theme (quote icons) t)
+ '(neo-theme (quote icons))
  '(nrepl-message-colors
    (quote
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files (quote ("~/proj/woodpecker/preso/osb.org")))
  '(package-selected-packages
    (quote
-    (yasnippet groovy-mode cljr-helm sotclojure emidje flycheck-joker clj-comment comment-tags qpipenv pippel highlight-quoted highlight cider-eval-sexp-fu pytest python-pytest importmagic ein flycheck-pycheckers pylint py-autopep8 pipenv anaconda-mode helm-emmet company-web emmet-mode graphql-mode zencoding-mode discover-clj-refactor clj-refactor restclient-test restclient-helm company-restclient edit-indirect swagger-to-org git-messenger browse-at-remote lorem-ipsum auto-dim-other-buffers emojify emoji-cheat-sheet-plus emoji-cheat-sheet company-emoji ac-emoji flycheck-status-emoji flymd company-flx string-inflection highlight-parentheses pos-tip multiple-cursors parinfer counsel cucumber-goto-step feature-mode ac-octave nginx-mode rjsx-mode inf-clojure highlight-numbers company-jedi elpy jedi fontawesome org-bullets org-tree-slide epresent htmlize ox-reveal command-log-mode smart-comment hide-comnt fic-mode monroe docker dockerfile-mode docker-mode intero protobuf-mode pkgbuild-mode typo typopunct centered-cursor-mode speed-type sublimity-scroll yascroll smart-mode-line-powerline-theme dashboard elfeed crosshairs hiwin monokai-theme flymake-puppet puppet-mode wrap-region focus zlc bash-completion ansible-doc ansible idle-highlight-mode f sx prelude-helm-everywhere dired+ langtool pretty-mode clojure-mode-extra-font-locking jump-char flycheck-tip flycheck-pos-tip kibit-helper slamhound helm-clojuredocs flycheck-clojure col-highlight origami hideshowvis ghc flymake-hlint haskell-mode corral flymake-coffee coffee-mode all-the-icons neotree zop-to-char yari yaml-mode which-key web-mode volatile-highlights visible-mark utop unfill undo-tree tuareg toggle-quotes tangotango-theme smex smartrep smartparens smart-mode-line shrink-whitespace show-marks ruby-tools rubocop rinari relative-line-numbers rainbow-mode rainbow-delimiters ov org-journal operate-on-number multi-term multi-eshell move-text markdown-mode mark-tools magit livescript-mode linum-relative key-chord json-mode imenu-anywhere ido-ubiquitous helm-projectile helm-descbinds helm-cider helm-ag haml-mode guru-mode guide-key grizzl god-mode gitignore-mode github-issues gitconfig-mode git-timemachine gist geiser flycheck-ocaml flx-ido floobits expand-region exec-path-from-shell esh-help elisp-slime-nav easy-kill dot-mode discover-my-major diminish diff-hl cycle-quotes csv-mode crux crontab-mode company-quickhelp company-ansible comment-dwim-2 clojure-snippets clojure-cheatsheet clippy chruby buffer-move browse-kill-ring bm beacon anzu adoc-mode ace-window ac-cider)))
+    (nav yasnippet groovy-mode cljr-helm sotclojure emidje flycheck-joker clj-comment comment-tags qpipenv pippel highlight-quoted highlight cider-eval-sexp-fu pytest python-pytest importmagic ein flycheck-pycheckers pylint py-autopep8 pipenv anaconda-mode helm-emmet company-web emmet-mode graphql-mode zencoding-mode discover-clj-refactor clj-refactor restclient-test restclient-helm company-restclient edit-indirect swagger-to-org git-messenger browse-at-remote lorem-ipsum auto-dim-other-buffers emojify emoji-cheat-sheet-plus emoji-cheat-sheet company-emoji ac-emoji flycheck-status-emoji flymd company-flx string-inflection highlight-parentheses pos-tip multiple-cursors parinfer counsel cucumber-goto-step feature-mode ac-octave nginx-mode rjsx-mode inf-clojure highlight-numbers company-jedi elpy jedi fontawesome org-bullets org-tree-slide epresent htmlize ox-reveal command-log-mode smart-comment hide-comnt fic-mode monroe docker dockerfile-mode docker-mode intero protobuf-mode pkgbuild-mode typo typopunct centered-cursor-mode speed-type sublimity-scroll yascroll smart-mode-line-powerline-theme dashboard elfeed crosshairs hiwin monokai-theme flymake-puppet puppet-mode wrap-region focus zlc bash-completion ansible-doc ansible idle-highlight-mode f sx prelude-helm-everywhere dired+ langtool pretty-mode clojure-mode-extra-font-locking jump-char flycheck-tip flycheck-pos-tip kibit-helper slamhound helm-clojuredocs flycheck-clojure col-highlight origami hideshowvis ghc flymake-hlint haskell-mode corral flymake-coffee coffee-mode all-the-icons neotree zop-to-char yari yaml-mode which-key web-mode volatile-highlights visible-mark utop unfill undo-tree tuareg toggle-quotes tangotango-theme smex smartrep smartparens smart-mode-line shrink-whitespace show-marks ruby-tools rubocop rinari relative-line-numbers rainbow-mode rainbow-delimiters ov org-journal operate-on-number multi-term multi-eshell move-text markdown-mode mark-tools magit livescript-mode linum-relative key-chord json-mode imenu-anywhere ido-ubiquitous helm-projectile helm-descbinds helm-cider helm-ag haml-mode guru-mode guide-key grizzl god-mode gitignore-mode github-issues gitconfig-mode git-timemachine gist geiser flycheck-ocaml flx-ido floobits expand-region exec-path-from-shell esh-help elisp-slime-nav easy-kill dot-mode discover-my-major diminish diff-hl cycle-quotes csv-mode crux crontab-mode company-quickhelp company-ansible comment-dwim-2 clojure-snippets clojure-cheatsheet clippy chruby buffer-move browse-kill-ring bm beacon anzu adoc-mode ace-window ac-cider)))
  '(paradox-automatically-star t)
  '(paradox-github-token t)
  '(prelude-global-mode t)
@@ -55,6 +83,7 @@
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".ensime_cache" ".eunit" ".git" ".hg" ".fslckout" "_FOSSIL_" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "vendor")))
+ '(projectile-indexing-method (quote hybrid))
  '(projectile-mode t nil (projectile))
  '(projectile-switch-project-action (quote helm-projectile-find-file))
  '(safe-local-variable-values nil)
