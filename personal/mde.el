@@ -178,11 +178,13 @@
 ;; (global-set-key (kbd "M-J") 'jump-to-register)
 (global-set-key (kbd "C-S-J") 'jump-to-register)
 
+;; ISpell (I)
 (global-set-key (kbd "C-S-i") 'flycheck-next-error)
 
 
 ;; http://lotabout.me/orgwiki/emacs-helm.html
 ;; (global-set-key (kbd "C-S-h") 'helm-command-prefix)
+;; sHell (H)
 (global-set-key (kbd "C-S-h") 'eshell)
 ;; Speed up helm? https://github.com/emacs-helm/helm/wiki/FAQ#slow-frame-and-window-popup-in-emacs-26
 (setq x-wait-for-event-timeout nil)
@@ -297,7 +299,10 @@
 
 ;; Jump to open file in neotree
 (setq neo-smart-open t)
+;; dir Listing (L)
 (global-set-key (kbd "C-S-l") 'neotree-toggle)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
@@ -401,13 +406,16 @@
   (delete-window)
   (balance-windows))
 ;; (global-set-key (kbd "C-z")   'delete-window-balancedly)
+;; Background window (Z: like shell's C-z)
 (global-set-key (kbd "C-S-z") 'delete-window-balancedly)
+;; Kill (K)
 (global-set-key (kbd "C-S-k") 'kill-window-balancedly)
 
+;; Buffers (B)
 (global-set-key (kbd "C-S-b") 'helm-mini)
 
 
-;; Window buffer switching
+;; Window buffer switching (O: Only)
 (global-set-key (kbd "C-S-o") 'delete-other-windows) ; think "Only"
 ;; Just use C-c left-arrow
 ;; (global-set-key (kbd "C-S-g") 'winner-undo)
@@ -422,6 +430,7 @@
   ;; (helm-projectile-find-file)
   )
 ;; (global-set-key (kbd "C-S-n") 'split-window-horizontally)
+;; New window (N)
 (global-set-key (kbd "C-S-n") 'split-window-balancedly)
 
 ;; Scroll without moving point; like Vim's C-y, C-e
@@ -474,6 +483,8 @@
 
 ;; Multiple cursors: https://github.com/magnars/multiple-cursors.el
 (prelude-require-package 'multiple-cursors)
+;; Multiple Cursors (C)
+;;(global-set-key (kbd "C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -574,6 +585,7 @@
 
 ;; Magit: came with Super-based shortcuts; use C-c g ... instead
 (define-key prelude-mode-map (kbd "C-c C-g")  nil)
+;; maGit (G)
 (global-set-key (kbd "C-S-g") 'magit-status)
 (global-set-key (kbd "C-c C-g g") 'magit-status)
 (global-set-key (kbd "C-c C-g b") 'magit-blame)
@@ -593,6 +605,7 @@
 ;; (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
 ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 ;; (define-key projectile-mode-map (kbd "C-c C-f") 'projectile-command-map)
+;; Projectile (P)
 (define-key projectile-mode-map (kbd "C-S-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-S-p s") 'helm-projectile-ag)
 
@@ -1197,6 +1210,13 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "M-[") (lambda () (interactive) (sp-wrap-with-pair "[")))
        ;; Overrides tmm-menubar
        (global-set-key (kbd "M-`") (lambda () (interactive) (sp-wrap-with-pair "`")))
+
+       ;; Hide-Show (V: visible)
+       (hs-minor-mode)
+       (global-set-key (kbd "C-S-v H") 'hs-hide-all)
+       (global-set-key (kbd "C-S-v S") 'hs-show-all)
+       (global-set-key (kbd "C-S-v h") 'hs-hide-block)
+       (global-set-key (kbd "C-S-v s") 'hs-show-block)
        )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 

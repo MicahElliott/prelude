@@ -11,6 +11,7 @@
         org-self-insert-command
         sp-backward-barf-sexp
         sp-backward-delete-char
+        sp-delete-char
         sp-forward-slurp-sexp
         sp-kill-word
         ))
@@ -19,6 +20,7 @@
       '(
         cider-eval-last-sexp
         crux-move-beginning-of-line
+        easy-mark
         end-of-buffer
         handle-switch-frame
         helm-M-x
