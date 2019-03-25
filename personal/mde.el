@@ -105,7 +105,7 @@
 ;; Highlight the point column (see `col-highlight' in customize)
 ;; (not really using)
 ;; Not great since covers up mark markers, and funky with variable-width lines.
-(prelude-require-package 'crosshairs)
+;; (prelude-require-package 'crosshairs)
 ;; (column-highlight-mode t)
 
 ;; Don't seem to do a lot without some real study/effort
@@ -1137,13 +1137,11 @@ that directory to make multiple eshell windows easier."
 ;; Clojure
 
 ;;; yay, my own commenter!
-(prelude-require-package 'clj-comment)
+;; (prelude-require-package 'clj-comment)
 ;; (add-hook 'clojure-mode-hook #'clj-comment)
 ;; (global-set-key (kbd "C-c ;") 'clj-comment)
 
-(eval-after-load 'clojure-mode
-  '(progn
-     (define-key clojure-mode-map (kbd "C-c C-h") #'clojure-cheatsheet)))
+;; (eval-after-load 'clojure-mode '(progn (define-key clojure-mode-map (kbd "C-c C-h") #'clojure-cheatsheet)))
 
 ;; NOTE: also installed to ~/.lein/profiles.clj: kibit, eastwood
 (prelude-require-package 'smartparens)  ; better paredit, sp-*
@@ -1155,7 +1153,7 @@ that directory to make multiple eshell windows easier."
 ;; (prelude-require-package 'hydra)
 (prelude-require-package 'clj-refactor)
 (prelude-require-package 'clojure-snippets) ; yas for clojure
-(prelude-require-package 'clojure-cheatsheet)
+;; (prelude-require-package 'clojure-cheatsheet)
 (prelude-require-package 'flycheck-clojure)
 (prelude-require-package 'company-flx)
 ;; Not useful; just opens in broswer
@@ -1217,6 +1215,8 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "C-S-v S") 'hs-show-all)
        (global-set-key (kbd "C-S-v h") 'hs-hide-block)
        (global-set-key (kbd "C-S-v s") 'hs-show-block)
+       (global-set-key (kbd "C-S-v t") 'hs-toggle-hiding)
+       (global-set-key (kbd "C-S-v v") 'hs-toggle-hiding)
        )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 
