@@ -1046,6 +1046,8 @@ that directory to make multiple eshell windows easier."
 ;; (dot-mode t)
 (global-dot-mode t)
 
+(prelude-require-package 'mode-icons)
+
 ;; https://github.com/domtronn/all-the-icons.el
 (prelude-require-package 'all-the-icons)
 
@@ -1056,6 +1058,13 @@ that directory to make multiple eshell windows easier."
 (setq neo-theme 'icons)
 ;; open neotree with current file as root
 (setq neo-smart-open t)
+
+;; Treemacs
+(prelude-require-package 'treemacs)
+(prelude-require-package 'treemacs-magit)
+(prelude-require-package 'treemacs-projectile)
+(prelude-require-package 'treemacs-icons-dired)
+
 
 ;; Try dir-tree too.  Manual install.
 ;; https://github.com/rtircher/dirtree
