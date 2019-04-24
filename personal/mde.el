@@ -303,7 +303,6 @@
 (global-set-key (kbd "C-S-l") 'neotree-toggle)
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Windowing
 ;;; Most should use C-S-
@@ -453,8 +452,16 @@
 
 (prelude-require-package 'lorem-ipsum)
 
+;; HTTP headers, media-types, methods, relations and status codes, all
+;; summarized and linking to their specification.
+;; https://github.com/for-GET/know-your-http-well
+(prelude-require-package 'know-your-http-well)
+
 ;; Replacement for package-list-packages
-;; (prelude-require-package 'paradox)
+(prelude-require-package 'paradox)
+(paradox-enable)
+(setq paradox-github-token
+      (cadr (auth-source-user-and-password "api.github.com" "MicahElliott^paradox")))
 
 ;; url view
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
@@ -594,10 +601,16 @@
 (global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
 (global-set-key (kbd "C-c C-g B") 'browse-at-remote)
 (global-set-key (kbd "C-c C-g a") 'vc-annotate)
-(global-set-key (kbd "C-c C-g p") 'git-messenger:popup-message)
+;; (global-set-key (kbd "C-c C-g p") 'git-messenger:popup-message)
+(global-set-key (kbd "C-c C-g n") 'diff-hl-next-hunk)
+(global-set-key (kbd "C-c C-g m") 'diff-hl-mark-hunk)
+(global-set-key (kbd "C-c C-g p") 'diff-hl-previous-hunk)
+
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 ;; Perf: https://magit.vc/manual/magit/Performance.html#Performance
-(setq vc-handled-backends nil)
+;; Whoa, needed for diff-hl-mode and avoiding another weird startup error!!
+;; (setq vc-handled-backends nil)
 
 ;; Projectile changed!
 ;; (global-set-key (kbd "C-c p p") 'git-messenger:popup-message)
@@ -1201,6 +1214,8 @@ that directory to make multiple eshell windows easier."
        ;; This choice of keybinding leaves cider-macroexpand-1 unbound
        (global-set-key (kbd "M-h") 'mark-paragraph)
        (global-set-key (kbd "C-c C-k") 'my-cider-load-buffer)
+       (setq cider-repl-pop-to-buffer-on-connect 'display-only)
+       (setq cider-repl-result-prefix ";; => ")
        (setq cider-save-file-on-load t)
        (setq cider-prompt-for-symbol nil)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
