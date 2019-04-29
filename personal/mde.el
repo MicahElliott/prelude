@@ -605,6 +605,7 @@
 (global-set-key (kbd "C-c C-g n") 'diff-hl-next-hunk)
 (global-set-key (kbd "C-c C-g m") 'diff-hl-mark-hunk)
 (global-set-key (kbd "C-c C-g p") 'diff-hl-previous-hunk)
+(global-set-key (kbd "C-c C-g r") 'diff-hl-revert-hunk)
 
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
@@ -851,6 +852,7 @@
 
 
 ;;; Python
+(prelude-require-package 'conda)
 (prelude-require-package 'elpy)
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
@@ -1186,6 +1188,7 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'flycheck-joker)
 (require 'flycheck-joker)
 (prelude-require-package 'kibit-helper)
+(prelude-require-package 'flycheck-clj-kondo)
 (prelude-require-package 'sotclojure)
 (define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
 (setq error-tip-notify-keep-messages t)
