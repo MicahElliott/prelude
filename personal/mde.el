@@ -301,6 +301,9 @@
 (setq neo-smart-open t)
 ;; dir Listing (L)
 (global-set-key (kbd "C-S-l") 'neotree-toggle)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+;; (prelude-require-package 'ivy)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1074,6 +1077,9 @@ that directory to make multiple eshell windows easier."
 ;; open neotree with current file as root
 (setq neo-smart-open t)
 
+(prelude-require-package 'all-the-icons-dired)
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
 ;; Treemacs
 (prelude-require-package 'treemacs)
 (prelude-require-package 'treemacs-magit)
@@ -1228,6 +1234,12 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "C-S-r") 'cljr-helm)
        (global-set-key (kbd "C-c r") 'cljr-helm)
        (global-set-key (kbd "C-S-T") 'cider-test-commands-map)
+       ;; Disable flycheck next error in favor of Cider
+       (define-key prelude-mode-map (kbd "C-c C-n")  nil)
+       (global-set-key (kbd "C-c C-n") 'cider-ns-map)
+       (define-key prelude-mode-map (kbd "C-c C-p")  nil)
+       (global-unset-key (kbd "C-c C-p"))
+       (global-set-key (kbd "C-c C-p") 'cider-inspect)
        ;; (define-key (kbd "C-c r"))
        (company-flx-mode +1)
        (global-set-key (kbd "M-J") 'sp-join-sexp) ; maybe already done by smartparens
@@ -1246,6 +1258,8 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "C-S-v v") 'hs-toggle-hiding)
        )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+(add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
 
 (message "MDE: before eval-after-load")
 (eval-after-load "clojure-mode"
