@@ -8,12 +8,15 @@
         helm-maybe-exit-minibuffer
         hydra-cljr-code-menu/cljr-promote-function
         indent-for-tab-command
+        magit-diff-show-or-scroll-up
+        magit-run
         org-self-insert-command
         sp-backward-barf-sexp
         sp-backward-delete-char
         sp-delete-char
         sp-forward-slurp-sexp
         sp-kill-word
+        undefined
         ))
 
 (setq mc/cmds-to-run-once

@@ -47,6 +47,11 @@
 
 (prelude-require-package 'smart-mode-line-powerline-theme)
 
+;; show the cursor when moving after big movements in the window
+(prelude-require-package 'beacon)
+(beacon-mode +1)
+(global-set-key (kbd "C-S-c") 'beacon-blink)
+
 ;; I don't think this will work since running in multi-client mode via `e'.
 ;; (prelude-require-package 'dashboard)
 ;; (dashboard-setup-startup-hook)
@@ -74,7 +79,7 @@
 (global-set-key (kbd "M-}") 'beginning-of-buffer)
 
 ;; Try vim-style word movement (start of word forward)
-;; (require 'misc)
+(require 'misc)
 ;; Replaces forward-word
 ;; (global-set-key (kbd "M-f") 'forward-to-word)
 
@@ -158,9 +163,9 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; FIXME: why isn't superword working? Ah, because silly prelude was
 ;; explicitly setting subword mode.
+;; Don't really need subword mode since getting good at `sp' M-C
 ;; (add-hook 'prog-mode-hook 'superword-mode)
-(add-hook 'prog-mode-hook 'superword-mode)
-(superword-mode 1)
+;; (superword-mode 1)
 
 ;; Emoji!! 🐱 🐶 🔘 ☢ 🎿 😄 😱 😸 👸 👽 🙋 🚸
 ;; Also run gitmoji in terminal
@@ -177,6 +182,8 @@
 ;; Hmm, M-J is needed for sp-join-sexp
 ;; (global-set-key (kbd "M-J") 'jump-to-register)
 (global-set-key (kbd "C-S-J") 'jump-to-register)
+(global-set-key (kbd "C-S-x") 'avy-goto-word-1)
+;; (global-set-key (kbd "C-S-x") 'crux-switch-to-previous-buffer)
 
 ;; ISpell (I)
 (global-set-key (kbd "C-S-i") 'flycheck-next-error)
@@ -290,8 +297,34 @@
 
 ;; (prelude-require-package 'pretty-mode)
 ;; (global-pretty-mode t)
+;; https://en.wikipedia.org/wiki/Relational_algebra
+(defun configure-prettify-symbols-alist ()
+  "Set prettify symbols alist."
+  (setq prettify-symbols-alist '(
+                                 ;; ("lambda" . ?λ)
+                                 ;; ("map" . ?↦)
+                                 ("map" . ?a)
+                                 ;; ("defn" . ?f)
+                                 ;; ("->" . ?→)
+                                 ;; ("#{" . ?ε)
+                                 ;; ("->>" . ?↠)
+                                 ;; ("=>" . ?⇒)
+                                 ;; ("/=" . ?≠)
+                                 ;; ("!=" . ?≠)
+                                 ;; ("<=" . ?≤)
+                                 ;; (">=" . ?≥)
+                                 ;; ("and" . ?∧)
+                                 ;; ("or" . ?∨)
+                                 ("not" . ?¬))))
+
+;; Fancy lambda etc
 (global-prettify-symbols-mode t)
 
+;; (add-hook 'emacs-lisp-mode-hook 'configure-prettify-symbols-alist)
+(add-hook 'clojure-mode-hook 'configure-prettify-symbols-alist)
+
+;; (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+;; (add-hook 'prog-mode-hook 'configure-prettify-symbols-alist)
 
 ;; ;; Make number colorful.
 ;; (prelude-require-package 'highlight-numbers)
@@ -331,12 +364,12 @@
     (?? aw-show-dispatch-help))
   "List of actions for `aw-dispatch-default'.")
 
-(require 'key-chord)
-(key-chord-define-global "KK" 'aw-flip-window)
+;; (require 'key-chord)
+;; (key-chord-define-global "KK" 'aw-flip-window)
 
 ;; Not sure where this one is coming from but gets in the way every
 ;; time "clj" is typed
-(key-chord-define-global "lj" nil)
+;; (key-chord-define-global "lj" nil)
 
 (global-set-key (kbd "C-<tab>") 'aw-flip-window)
 (global-set-key (kbd "M-<tab>") 'ace-window)
@@ -445,8 +478,8 @@
   (interactive "p")
   (scroll-down arg)
   (forward-line arg))
-;; (global-set-key (kbd "C-S-E") 'scroll-up-stay)
-;; (global-set-key (kbd "C-S-D") 'scroll-down-stay)
+(global-set-key (kbd "C-S-E") 'scroll-up-stay)
+(global-set-key (kbd "C-S-Y") 'scroll-down-stay)
 ;; (global-set-key (kbd "C-y") 'yank)
 ;; (global-set-key (kbd "C-t") 'transpose-chars)
 
@@ -468,7 +501,8 @@
 
 ;; url view
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
-(global-set-key (kbd "C-c u") 'browse-url-firefox)
+;; (global-set-key (kbd "C-c u") 'browse-url-firefox)
+(global-set-key (kbd "C-c u") 'browse-url-chrome)
 
 ;; Camel, Kebab cases
 ;; https://stackoverflow.com/a/27422814/326516
@@ -495,7 +529,7 @@
 (prelude-require-package 'multiple-cursors)
 ;; Multiple Cursors (C)
 ;;(global-set-key (kbd "C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
@@ -514,7 +548,7 @@
 ;; (setq guide-key/guide-key-sequence t)
 ;; (guide-key-mode 1)  ; Enable guide-key-mode
 
-(setq multi-term-program "/usr/bin/zsh")
+(setq multi-term-program "/bin/zsh")
 (setq shell-file-name "zsh")
 (prelude-require-package 'multi-term)
 ;; (require 'multi-term)
@@ -530,6 +564,12 @@
 ;;; Commenter: still stuggling with this
 (prelude-require-package 'comment-dwim-2)
 (global-set-key (kbd "M-;") 'comment-dwim-2)
+
+
+(prelude-require-package 'uuidgen)
+
+(prelude-require-package 'epoch-view)
+(epoch-view-mode t)
 
 
 
@@ -597,20 +637,42 @@
 (define-key prelude-mode-map (kbd "C-c C-g")  nil)
 ;; maGit (G)
 (global-set-key (kbd "C-S-g") 'magit-status)
-(global-set-key (kbd "C-c C-g g") 'magit-status)
-(global-set-key (kbd "C-c C-g b") 'magit-blame)
-(global-set-key (kbd "C-c C-g l") 'magit-log-buffer-file)
-(global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
-(global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
-(global-set-key (kbd "C-c C-g B") 'browse-at-remote)
+(global-set-key (kbd "C-c C-g B") 'github-browse-file)
 (global-set-key (kbd "C-c C-g a") 'vc-annotate)
-;; (global-set-key (kbd "C-c C-g p") 'git-messenger:popup-message)
-(global-set-key (kbd "C-c C-g n") 'diff-hl-next-hunk)
+(global-set-key (kbd "C-c C-g b") 'magit-blame)
+(global-set-key (kbd "C-c C-g f") 'github-browse-file)
+(global-set-key (kbd "C-c C-g g") 'magit-status)
+(global-set-key (kbd "C-c C-g l") 'magit-log-buffer-file)
 (global-set-key (kbd "C-c C-g m") 'diff-hl-mark-hunk)
+(global-set-key (kbd "C-c C-g n") 'diff-hl-next-hunk)
 (global-set-key (kbd "C-c C-g p") 'diff-hl-previous-hunk)
 (global-set-key (kbd "C-c C-g r") 'diff-hl-revert-hunk)
+(global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
+(global-set-key (kbd "C-c C-g t") 'git-timemachine-toggle)
+;; (global-set-key (kbd "C-c C-g p") 'git-messenger:popup-message)
+
+;;; Git stuff
+(prelude-require-package 'git-link)
+(prelude-require-package 'github-browse-file)
+(prelude-require-package 'github-pullrequest)
+(prelude-require-package 'forge)
+(with-eval-after-load 'magit (require 'forge))
+;; (prelude-require-package 'github-review)
+;; (prelude-require-package 'magit-circleci) ; doesn't really work
+
+;; Add a prefix message (intent or ticket number) to all commits.
+;; https://github.com/kidd/git-msg-prefix.el
+(prelude-require-package 'git-msg-prefix)
+(add-hook 'git-commit-mode-hook 'git-msg-prefix)
+(setq git-msg-prefix-input-method 'helm-comp-read)
+
+;; Ancient
+;; (prelude-require-package 'mo-git-blame)
+
 
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+;; https://magit.vc/manual/magit/Performance.html#Performance
+(setq magit-refresh-status-buffer nil)
 
 ;; Perf: https://magit.vc/manual/magit/Performance.html#Performance
 ;; Whoa, needed for diff-hl-mode and avoiding another weird startup error!!
@@ -636,9 +698,16 @@
 ;; Seems to do too much; might have failed install
 ;; (prelude-require-package 'ox-reveal)
 ;; (prelude-require-package 'htmlize)
-;; (prelude-require-package 'epresent)
-;; (prelude-require-package 'org-tree-slide)
+(prelude-require-package 'epresent)
+;; (prelude-require-package 'ob-clojurescript)
+(prelude-require-package 'org-tree-slide)
 ;; (prelude-require-package 'org-bullets)
+
+(global-set-key (kbd "C-c C-x l") 'org-toggle-link-display)
+
+(prelude-require-package 'org-preview-html)
+(prelude-require-package 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;; Dim surrounding text.
 ;; https://github.com/larstvei/Focus (neat idea)
@@ -699,7 +768,7 @@
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
 
 ;; Not sure if works
-(setq explicit-shell-file-name "/usr/bin/zsh")
+(setq explicit-shell-file-name "/bin/zsh")
 
 ;; Seems prelude already does this??
 ;; https://www.emacswiki.org/emacs/ShowParenMode
@@ -789,8 +858,8 @@
 (setq avy-case-fold-search nil)
 ;; (key-chord-define-global "jj" nil)
 ;; (key-chord-define-global "jj" 'avy-goto-char-2)
-(key-chord-define-global "jj" 'avy-goto-word-1)
-(key-chord-define-global "kk" 'avy-goto-char-2)
+;; (key-chord-define-global "jj" 'avy-goto-word-1)
+;; (key-chord-define-global "kk" 'avy-goto-char-2)
 ;; (key-chord-define-global "kk" 'avy-goto-line-above)
 ;; (key-chord-define-global "jj" 'avy-goto-line-below)
 
@@ -855,15 +924,20 @@
 
 
 ;;; Python
-(prelude-require-package 'conda)
+;; (prelude-require-package 'conda)
+
+;; Code completion, navigation, interactive shell, virtualenv, syntax
+;; checking, docs, debugger, snippets
 (prelude-require-package 'elpy)
 (elpy-enable)
-(setq elpy-rpc-backend "jedi")
-(prelude-require-package 'jedi)
-(prelude-require-package 'company-jedi)
-(defun my/python-mode-hook ()
-  (add-to-list 'company-backends 'company-jedi))
-(add-hook 'python-mode-hook 'my/python-mode-hook)
+;; (setq elpy-rpc-backend "jedi")
+
+;; (prelude-require-package 'jedi)
+;; autocompletion
+;; (prelude-require-package 'company-jedi)
+;; (defun my/python-mode-hook ()
+  ;; (add-to-list 'company-backends 'company-jedi))
+;; (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 ;; (setq-default py-shell-name "ipython")
 (setq py-force-py-shell-name-p t)
@@ -879,17 +953,20 @@
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
-(prelude-require-package 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+;; (prelude-require-package 'anaconda-mode)
+;; (add-hook 'python-mode-hook 'anaconda-mode)
+;; (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
 ;; (setq python-shell-interpreter "ipython")
 
-(prelude-require-package 'pippel)
+;; (prelude-require-package 'pippel)
+;; (prelude-require-package 'pipenv)
+;; (setq pipenv-projectile-after-switch-function
+      ;; #'pipenv-projectile-after-switch-extended)
 
-(prelude-require-package 'pipenv)
-(setq pipenv-projectile-after-switch-function
-      #'pipenv-projectile-after-switch-extended)
+(prelude-require-package 'pyenv-mode)
+(prelude-require-package 'pyenv-mode-auto)
+
 
 (prelude-require-package 'py-autopep8)
 
@@ -908,6 +985,11 @@
 
 (prelude-require-package 'python-pytest)
 (prelude-require-package 'pytest)
+
+
+;;; Dart
+(prelude-require-package 'dart-mode)
+(prelude-require-package 'lsp-dart)
 
 
 ;;; Ruby
@@ -1199,9 +1281,18 @@ that directory to make multiple eshell windows easier."
 (define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
 (setq error-tip-notify-keep-messages t)
 ;; (flycheck-tip-use-timer 'verbose)
-;; (prelude-require-package 'flycheck-pos-tip)
 ;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
 (prelude-require-package 'clojure-mode-extra-font-locking)
+
+;; For kondo: https://github.com/borkdude/flycheck-clj-kondo#multiple-linters
+(require 'flycheck-clj-kondo)
+(dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
+  (setq flycheck-checkers (cons checker (delq checker flycheck-checkers))))
+(dolist (checkers '((clj-kondo-clj . clojure-joker)
+                    (clj-kondo-cljs . clojurescript-joker)
+                    (clj-kondo-cljc . clojure-joker)
+                    (clj-kondo-edn . edn-joker)))
+  (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
 
 ;; Log all commands for demo purposes.
 ;; (add-hook 'clojure-mode-hook 'command-log-mode)
@@ -1228,12 +1319,12 @@ that directory to make multiple eshell windows easier."
        (setq cider-save-file-on-load t)
        (setq cider-prompt-for-symbol nil)
        ;; (cljr-add-keybindings-with-prefix "C-c r")
-       ;; (cljr-add-keybindings-with-prefix "C-S-r")
-       ;; (cljr-add-keybindings-with-prefix "C-c m")
+       (cljr-add-keybindings-with-prefix "C-S-r")
+       (cljr-add-keybindings-with-prefix "C-c m")
        (global-set-key (kbd "C-c R") 'cljr-helm)
-       (global-set-key (kbd "C-S-r") 'cljr-helm)
+       ;; (global-set-key (kbd "C-S-r") 'cljr-helm)
        (global-set-key (kbd "C-c r") 'cljr-helm)
-       (global-set-key (kbd "C-S-T") 'cider-test-commands-map)
+       ;; (global-set-key (kbd "C-S-T") 'cider-test-commands-map)
        ;; Disable flycheck next error in favor of Cider
        (define-key prelude-mode-map (kbd "C-c C-n")  nil)
        (global-set-key (kbd "C-c C-n") 'cider-ns-map)
@@ -1248,7 +1339,7 @@ that directory to make multiple eshell windows easier."
        ;; Overrides tmm-menubar
        (global-set-key (kbd "M-`") (lambda () (interactive) (sp-wrap-with-pair "`")))
 
-       ;; Hide-Show (V: visible)
+       ;; Hide-Show (V: visible), like folding
        (hs-minor-mode)
        (global-set-key (kbd "C-S-v H") 'hs-hide-all)
        (global-set-key (kbd "C-S-v S") 'hs-show-all)
@@ -1268,8 +1359,9 @@ that directory to make multiple eshell windows easier."
      (message "MDE: in clojure eval-after-load")))
 
 ;; https://github.com/clojure-emacs/squiggly-clojure
-;; (eval-after-load 'flycheck '(flycheck-clojure-setup))
+; (eval-after-load 'flycheck '(flycheck-clojure-setup))
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(prelude-require-package 'flycheck-pos-tip)
 ;; (eval-after-load 'flycheck
 ;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
@@ -1316,7 +1408,7 @@ that directory to make multiple eshell windows easier."
   (cider-jack-in-clj nil)
   (delete-window-balancedly)
   (crux-switch-to-previous-buffer))
-(global-set-key (kbd "C-S-x") 'my-create-cider-repl-window)
+;; (global-set-key (kbd "C-S-x") 'my-create-cider-repl-window)
 
 
 
@@ -1380,6 +1472,7 @@ that directory to make multiple eshell windows easier."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Other non-programming modes
 
+
 ;; http://emacs.stackexchange.com/questions/2410/how-can-i-use-emacs-to-edit-questions-answers-and-comments-here/
 ;; (prelude-require-package 'sx)
 
@@ -1403,7 +1496,36 @@ that directory to make multiple eshell windows easier."
 ;; (global-set-key (kbd "C-M-a") 'beginning-of-defun) ; replaced
 (global-set-key (kbd "C-M-a") 'my-beginning-of-defun)
 
+;; Copy filename to clipboard
+;; https://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
+(defun my-copy-filename ()
+  "Copy current buffer file name to clipboard"
+  (interactive)
+  (let ((fname (buffer-file-name)))
+    (kill-new fname)
+    (message "Copied buffer file name '%s' to the clipboard." fname)))
+(global-set-key (kbd "C-c c") 'my-copy-filename)
 
+(defun my-git-filename ()
+  "Copy filename path relative to repo."
+  (let ((root  (replace-regexp-in-string "~/" "/" (vc-root-dir))) ; "/.emacs.d/" "/proj/fk12/"
+        (fname (buffer-file-name))
+        ;; (reporoot (vc-git-push))
+        ) ; "/Users/micah.elliott/.emacs.d/personal/mde.el"
+    (replace-regexp-in-string (concat ".*" root) "" fname)))
+
+(prelude-require-package 'dumb-jump)
+
+(defun cider-or-dumb-jump ()
+  (interactive)
+  (if (cider-connected-p)
+      (cider-find-var)
+    (dumb-jump-go))
+  (recenter-top-bottom))
+
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (local-set-key (kbd "M-.") 'cider-or-dumb-jump)))
 
 (provide 'mde)
 
