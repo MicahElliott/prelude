@@ -38,13 +38,15 @@
 (defun my-buffer-face-mode-variable ()
   "Set font to a variable width (proportional) fonts in current buffer"
   (interactive)
-  (setq buffer-face-mode-face '(:family "Avenir" :height 100 :width semi-condensed))
+  (setq buffer-face-mode-face '(:family "Alegreya Sans" :height 100 :width semi-condensed))
   (buffer-face-mode))
 ;; Font face overrides via hooks
 (add-hook 'prog-mode-hook 'my-buffer-face-mode-fixed)
 (add-hook 'dired-mode-hook 'my-buffer-face-mode-fixed)
 (add-hook 'magit-mode-hook 'my-buffer-face-mode-fixed)
-(add-hook 'markdown-mode-hook 'my-buffer-face-mode-variable)
+(add-hook 'eshell-mode-hook 'my-buffer-face-mode-fixed)
+;; (add-hook 'markdown-mode-hook 'my-buffer-face-mode-variable)
+
 
 ;; Defvault to using typo mode for better/fancy typography
 (typo-global-mode 1)
@@ -566,8 +568,8 @@
  "ssh" '((tramp-parse-sconfig "~/.ssh/config")
          (tramp-parse-sconfig "~/proj/Membean/provn/ansible/ssh-inventory.config")))
 
-;; (prelude-require-package 'helm-descbinds)
-(require 'helm-descbinds)
+(prelude-require-package 'helm-descbinds)
+;; (require 'helm-descbinds)
 (helm-descbinds-mode)
 ;; which-key is the active help completer!!
 ;; thread says Helm Descbinds is better than guide-key:
@@ -693,9 +695,9 @@
 
 ;; Add a prefix message (intent or ticket number) to all commits.
 ;; https://github.com/kidd/git-msg-prefix.el
-(prelude-require-package 'git-msg-prefix)
-(add-hook 'git-commit-mode-hook 'git-msg-prefix)
-(setq git-msg-prefix-input-method 'helm-comp-read)
+;; (prelude-require-package 'git-msg-prefix)
+;; (add-hook 'git-commit-mode-hook 'git-msg-prefix)
+;; (setq git-msg-prefix-input-method q'helm-comp-read)
 
 ;; Ancient
 ;; (prelude-require-package 'mo-git-blame)
@@ -734,16 +736,19 @@
 (prelude-require-package 'org-tree-slide)
 ;; (prelude-require-package 'org-bullets)
 
-(define-key org-mode-map (kbd "M-}") nil)
-(define-key org-mode-map (kbd "C-TAB") nil) ; not working
+
+;; (define-key org-mode-map (kbd "M-}") nil)
+;; (define-key org-mode-map (kbd "C-TAB") nil) ; not working
+
 ;; https://stackoverflow.com/questions/4333467/override-ctrl-tab-in-emacs-org-mode
 (add-hook 'org-mode-hook
-          '(lambda () (define-key org-mode-map [(control tab)] nil)))
+          '(lambda ()
+             (define-key org-mode-map [(control tab)] nil)
+             (define-key org-mode-map (kbd "C-M-u") 'org-up-element)
+             (define-key org-mode-map (kbd "C-M-d") 'org-down-element)
+             (define-key org-mode-map (kbd "C-M-f") 'org-forward-element)
+             (define-key org-mode-map (kbd "C-M-b") 'org-backward-element)))
 
-(define-key org-mode-map (kbd "C-M-u") 'org-up-element)
-(define-key org-mode-map (kbd "C-M-d") 'org-down-element)
-(define-key org-mode-map (kbd "C-M-f") 'org-forward-element)
-(define-key org-mode-map (kbd "C-M-b") 'org-backward-element)
 
 (global-set-key (kbd "C-c C-x l") 'org-toggle-link-display)
 
@@ -1042,7 +1047,7 @@
 
 ;;; Dart
 (prelude-require-package 'dart-mode)
-(prelude-require-package 'lsp-dart)
+;; (prelude-require-package 'lsp-dart)
 
 
 ;;; Ruby
