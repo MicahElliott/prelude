@@ -85,12 +85,16 @@
 ;; (prelude-require-package 'dashboard)
 ;; (dashboard-setup-startup-hook)
 
+;; https://draculatheme.com/emacs/
+;; (prelude-require-package 'dracula-theme)
+;; (load-theme 'dracula t)
+
 ;; (prelude-require-package 'tangotango-theme)
-;; (load-theme 'tangotango t t)
+;; (load-theme 'tangotango t)
 ;; (enable-theme 'tangotango)
 (prelude-require-package 'monokai-theme)
 (setq prelude-theme 'monokai-theme)
-(load-theme 'monokai t t)
+(load-theme 'monokai t)
 (enable-theme 'monokai)
 
 ;; special treatment of FIXME, etc
@@ -154,7 +158,7 @@
 ;; Set face color with customize
 ;; (set-face-background 'hiwin-face "gray80")
 
-;; Dim inactive buffers. Works way better than hiwin!
+;; Dim inactive (and highlight active) buffers. Works way better than hiwin!
 (prelude-require-package 'auto-dim-other-buffers)
 (add-hook 'after-init-hook (lambda ()
                              (when (fboundp 'auto-dim-other-buffers-mode)
@@ -268,6 +272,8 @@
 
 (setq tab-stop-list (number-sequence 2 200 2))
 
+
+(prelude-require-package 'command-log-mode)
 
 ;; Zsh, hopefully
 (setq indent-tabs-mode t)
@@ -406,18 +412,24 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 ;; Planck arrows
-(global-set-key (kbd "C-S-f") 'windmove-right)
-(global-set-key (kbd "C-S-s") 'windmove-left)
-(global-set-key (kbd "C-S-e") 'windmove-up)
-(global-set-key (kbd "C-S-d") 'windmove-down)
+;; (global-set-key (kbd "C-S-f") 'windmove-right)
+;; (global-set-key (kbd "C-S-s") 'windmove-left)
+;; (global-set-key (kbd "C-S-e") 'windmove-up)
+;; (global-set-key (kbd "C-S-d") 'windmove-down)
+(global-set-key (kbd "M-<right>") 'windmove-right)
+(global-set-key (kbd "M-<left>") 'windmove-left)
+(global-set-key (kbd "M-<up>") 'windmove-up)
+(global-set-key (kbd "M-<down>") 'windmove-down)
 ;; (define-key prelude-mode-map "<right>" nil)
+
+(global-set-key (kbd "C-S-s") 'isearch-forward-symbol-at-point)
+
 ;; Disable guru from touching these.
 (setq prelude-guru nil)
 (global-set-key (kbd "C-<right>") 'windmove-right)
 (global-set-key (kbd "C-<left>") 'windmove-left)
 (global-set-key (kbd "C-<up>") 'windmove-up)
 (global-set-key (kbd "C-<down>") 'windmove-down)
-;; (global-set-key (kbd "C-s") 'isearch-forward)
 
 ;; Fastest window switching: http://emacs.stackexchange.com/a/3471/11025
 ;; (global-set-key (kbd "C-.") 'other-window)
@@ -568,9 +580,9 @@
  "ssh" '((tramp-parse-sconfig "~/.ssh/config")
          (tramp-parse-sconfig "~/proj/Membean/provn/ansible/ssh-inventory.config")))
 
-(prelude-require-package 'helm-descbinds)
+;(prelude-require-package 'helm-descbinds)
 ;; (require 'helm-descbinds)
-(helm-descbinds-mode)
+;(helm-descbinds-mode)
 ;; which-key is the active help completer!!
 ;; thread says Helm Descbinds is better than guide-key:
 ;; https://github.com/bbatsov/prelude/issues/481
@@ -747,7 +759,8 @@
              (define-key org-mode-map (kbd "C-M-u") 'org-up-element)
              (define-key org-mode-map (kbd "C-M-d") 'org-down-element)
              (define-key org-mode-map (kbd "C-M-f") 'org-forward-element)
-             (define-key org-mode-map (kbd "C-M-b") 'org-backward-element)))
+             (define-key org-mode-map (kbd "C-M-b") 'org-backward-element)
+             (define-key org-mode-map (kbd "M-}") 'beginning-of-buffer)))
 
 
 (global-set-key (kbd "C-c C-x l") 'org-toggle-link-display)
@@ -1084,8 +1097,9 @@
 ;; (prelude-require-package 'intero)
 
 ;; ;;; Docker
-;; (prelude-require-package 'dockerfile-mode)
-;; (prelude-require-package 'docker)
+(prelude-require-package 'docker)
+(prelude-require-package 'dockerfile-mode)
+(prelude-require-package 'docker-compose-mode)
 
 ;;; EShell
 
