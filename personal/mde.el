@@ -1289,9 +1289,10 @@ that directory to make multiple eshell windows easier."
 ;; (prelude-require-package 'github-issues)
 (prelude-require-package 'flycheck-tip)
 
+;; NOOOO! These kill helm and who knows what else!!!
 ;; https://github.com/cpitclaudel/compact-docstrings
-(prelude-require-package 'compact-docstrings)
-(add-hook 'after-init-hook #'global-compact-docstrings-mode)
+;; (prelude-require-package 'compact-docstrings)
+;; (add-hook 'after-init-hook #'global-compact-docstrings-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Clojure
