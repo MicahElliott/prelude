@@ -272,9 +272,6 @@
 
 (setq tab-stop-list (number-sequence 2 200 2))
 
-
-(prelude-require-package 'command-log-mode)
-
 ;; Zsh, hopefully
 (setq indent-tabs-mode t)
 (setq tab-width 2)
@@ -535,10 +532,9 @@
 (prelude-require-package 'know-your-http-well)
 
 ;; Replacement for package-list-packages
-(prelude-require-package 'paradox)
-(paradox-enable)
-(setq paradox-github-token
-      (cadr (auth-source-user-and-password "api.github.com" "MicahElliott^paradox")))
+;; (prelude-require-package 'paradox)
+;; (paradox-enable)
+;; (setq paradox-github-token (cadr (auth-source-user-and-password "api.github.com" "MicahElliott^paradox")))
 
 ;; url view
 ;; (global-set-key (kbd "C-c u") (lambda () (interactive) (browse-url-firefox)))
@@ -580,9 +576,9 @@
  "ssh" '((tramp-parse-sconfig "~/.ssh/config")
          (tramp-parse-sconfig "~/proj/Membean/provn/ansible/ssh-inventory.config")))
 
-;(prelude-require-package 'helm-descbinds)
+(prelude-require-package 'helm-descbinds)
 ;; (require 'helm-descbinds)
-;(helm-descbinds-mode)
+(helm-descbinds-mode)
 ;; which-key is the active help completer!!
 ;; thread says Helm Descbinds is better than guide-key:
 ;; https://github.com/bbatsov/prelude/issues/481
