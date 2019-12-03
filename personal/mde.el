@@ -1232,37 +1232,12 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'all-the-icons-dired)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
-;; Treemacs
-(prelude-require-package 'treemacs)
-(prelude-require-package 'treemacs-magit)
-(prelude-require-package 'treemacs-projectile)
-(prelude-require-package 'treemacs-icons-dired)
-
-
-;; Try dir-tree too.  Manual install.
-;; https://github.com/rtircher/dirtree
-;; (require 'dir-tree)
-
-;; (prelude-require-package 'esh-help)
-;; (require 'esh-help)
-;; (setup-esh-help-eldoc)  ;; To use eldoc in Eshell
-
-
-;; Octave
-;; (prelude-require-package 'ac-octave)
-
 ;; Gherkin/Cucumber
 (prelude-require-package 'feature-mode)
 ;; Just for emacs testing
 ;; (prelude-require-package 'ecukes)
 (prelude-require-package 'cucumber-goto-step)
 
-
-;; Zsh
-(add-hook 'shell-script-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode t)
-            (setq tab-width 2)))
 
 ;; http://emacs.stackexchange.com/questions/13662/a-confirmation-after-c-x-c-c
 ;; (setq confirm-kill-emacs 'yes-or-no-p)
@@ -1321,31 +1296,18 @@ that directory to make multiple eshell windows easier."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Clojure
 
-;;; yay, my own commenter!
-;; (prelude-require-package 'clj-comment)
-;; (add-hook 'clojure-mode-hook #'clj-comment)
-;; (global-set-key (kbd "C-c ;") 'clj-comment)
-
-;; (eval-after-load 'clojure-mode '(progn (define-key clojure-mode-map (kbd "C-c C-h") #'clojure-cheatsheet)))
-
 ;; NOTE: also installed to ~/.lein/profiles.clj: kibit, eastwood
 (prelude-require-package 'smartparens)  ; better paredit, sp-*
 (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
 (prelude-require-package 'cider)
 (prelude-require-package 'cider-eval-sexp-fu)
-;; (prelude-require-package 'monroe)
-;; (add-hook 'clojure-mode-hook 'clojure-enable-monroe)
-;; (prelude-require-package 'hydra)
+
 (prelude-require-package 'clj-refactor)
 (prelude-require-package 'clojure-snippets) ; yas for clojure
 ;; (prelude-require-package 'clojure-cheatsheet)
 (prelude-require-package 'flycheck-clojure)
 (prelude-require-package 'company-flx)
-;; Not useful; just opens in broswer
-;; (prelude-require-package 'helm-clojuredocs)
-;; Not needed since cljr-clean-ns
-;; (prelude-require-package 'slamhound)
-;; Not working
+
 (prelude-require-package 'flycheck-joker)
 (require 'flycheck-joker)
 (prelude-require-package 'kibit-helper)
@@ -1353,8 +1315,6 @@ that directory to make multiple eshell windows easier."
 (prelude-require-package 'sotclojure)
 (define-key prelude-mode-map (kbd "C-c C-n") 'flycheck-tip-cycle)
 (setq error-tip-notify-keep-messages t)
-;; (flycheck-tip-use-timer 'verbose)
-;; (with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
 (prelude-require-package 'clojure-mode-extra-font-locking)
 
 ;; For kondo: https://github.com/borkdude/flycheck-clj-kondo#multiple-linters
@@ -1366,9 +1326,6 @@ that directory to make multiple eshell windows easier."
                     (clj-kondo-cljc . clojure-joker)
                     (clj-kondo-edn . edn-joker)))
   (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
-
-;; Log all commands for demo purposes.
-;; (add-hook 'clojure-mode-hook 'command-log-mode)
 
 ;; hack to enable clj refactor
 (define-key prelude-mode-map (kbd "C-c r") nil)
@@ -1411,13 +1368,11 @@ that directory to make multiple eshell windows easier."
        (global-set-key (kbd "M-[") (lambda () (interactive) (sp-wrap-with-pair "[")))
        ;; Overrides tmm-menubar
        (global-set-key (kbd "M-`") (lambda () (interactive) (sp-wrap-with-pair "`")))
-
        )
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
 (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook #'paredit-mode)
 
-(message "MDE: before eval-after-load")
 (eval-after-load "clojure-mode"
   '(progn
      ;; (define-key clojure-mode-map (kbd "C-c C-h") #'clojure-cheatsheet)
@@ -1427,8 +1382,6 @@ that directory to make multiple eshell windows easier."
 ; (eval-after-load 'flycheck '(flycheck-clojure-setup))
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (prelude-require-package 'flycheck-pos-tip)
-;; (eval-after-load 'flycheck
-;;   '(setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages))
 
 ;; http://stackoverflow.com/questions/23766483/emacs-cider-clojure-auto-complete-how-to-get-the-docstring
 (setq ac-delay 0.1)
@@ -1444,25 +1397,11 @@ that directory to make multiple eshell windows easier."
 
 (prelude-require-package 'ac-cider)
 (prelude-require-package 'helm-cider)
-;; Somehow these break cider altogether!
-;;(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-;; (add-hook 'cider-mode-hook 'ac-cider-setup)
-;; (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-;; (eval-after-load "auto-complete"
-;;   '(add-to-list 'ac-modes 'cider-mode))
-
-;; (setq cider-cljs-lein-repl
-;;       "(do (user/go)
-;;            (user/cljs-repl))")
-
-;; (prelude-require-package 'emidje)
-;; (eval-after-load 'cider #'emidje-setup)
 
 (defun my-cider-find-var (arg)
   (interactive "p")
   (cider-find-var arg)
   (recenter-top-bottom))
-
 
 (defun my-create-cider-repl-window ()
   "Create a new right-most window with cider repl jacked-in."
@@ -1474,28 +1413,6 @@ that directory to make multiple eshell windows easier."
   (delete-window-balancedly)
   (crux-switch-to-previous-buffer))
 ;; (global-set-key (kbd "C-S-x") 'my-create-cider-repl-window)
-
-
-
-;; ;; Puppet
-;; (prelude-require-package 'puppet-mode)
-;; (prelude-require-package 'flymake-puppet)
-;; (add-hook puppet-mode-hook 'flymake-puppet-load)
-
-;; ;; Ansible
-;; (prelude-require-package 'ansible)
-;; (prelude-require-package 'ansible-doc)
-
-;; ;; https://github.com/k1LoW/emacs-ansible
-;; (prelude-require-package 'yaml-mode)
-;; (add-hook 'yaml-mode-hook #'ansible-doc-mode)
-;; (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-;; (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-;; (add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
-;; (add-hook 'yaml-mode-hook #'ansible-doc-mode)
-
-;; (prelude-require-package 'company-ansible)
-;; (add-to-list 'company-backends 'company-ansible)
 
 ;; Minor mode for personal overrides
 ;; http://stackoverflow.com/questions/683425/globally-override-key-binding-in-emacs
@@ -1518,21 +1435,8 @@ that directory to make multiple eshell windows easier."
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
 
 
-;; ;; JavaScript
-;; (prelude-require-package 'rjsx-mode)
-;; (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-
+;;; JavaScript
 (prelude-require-package 'json-reformat)
-
-;;;; Random
-
-;; ;; Nginx
-;; (prelude-require-package 'nginx-mode)
-
-;; (prelude-require-package 'restclient)
-;; (prelude-require-package 'restclient-helm)
-;; (prelude-require-package 'restclient-test)
-;; (prelude-require-package 'company-restclient)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Other non-programming modes
