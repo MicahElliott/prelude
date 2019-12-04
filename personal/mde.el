@@ -12,6 +12,20 @@
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Prelude original stuff
+
+;; reduce the frequency of garbage collection by making it happen on
+;; each 50MB of allocated data (the default is on every 0.76MB)
+(setq gc-cons-threshold 50000000)
+
+;; warn when opening files bigger than 100MB
+(setq large-file-warning-threshold 100000000)
+
+;; config changes made through the customize UI will be store here
+(setq custom-file (expand-file-name "custom.el" prelude-personal-dir))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Libraries
 
 ;; f, Modern API for working with files and directories in Emacs
@@ -85,17 +99,41 @@
 ;; (prelude-require-package 'dashboard)
 ;; (dashboard-setup-startup-hook)
 
-;; https://draculatheme.com/emacs/
-;; (prelude-require-package 'dracula-theme)
-;; (load-theme 'dracula t)
 
-;; (prelude-require-package 'tangotango-theme)
+;;; THEMES
+;; See the diff between `load-theme' and `enable-theme':
+;; https://github.com/jordonbiondo/ample-theme#installation
+
+;; https://draculatheme.com/emacs/
+(prelude-require-package 'dracula-theme)
+(prelude-require-package 'alect-themes)
+(prelude-require-package 'busybee-theme)
+(prelude-require-package 'colorless-themes)
+(prelude-require-package 'tangotango-theme)
+(prelude-require-package 'monokai-theme)
+(prelude-require-package 'heroku-theme)
+(prelude-require-package 'hemisu-theme)
+(prelude-require-package 'spacemacs-theme)
+(prelude-require-package 'moe-theme)
+(prelude-require-package 'ample-theme)
+(prelude-require-package 'doom-themes)
+
+;; (load-theme 'busybee t)
+(load-theme 'ample t t)
+(load-theme 'ample-flat t t)
+(load-theme 'ample-light t t)
+(enable-theme 'ample)
 ;; (load-theme 'tangotango t)
 ;; (enable-theme 'tangotango)
-(prelude-require-package 'monokai-theme)
-(setq prelude-theme 'monokai-theme)
-(load-theme 'monokai t)
-(enable-theme 'monokai)
+;; (setq prelude-theme 'monokai-theme)
+;; (load-theme 'monokai t)
+;; (enable-theme 'monokai)
+;; (load-theme 'dracula t)
+;; (load-theme 'doom-one t)
+
+;; Theme overrides
+;; (set-face-attribute 'region nil :background "#999")
+
 
 ;; special treatment of FIXME, etc
 (prelude-require-package 'fic-mode)
@@ -115,9 +153,6 @@
 (require 'misc)
 ;; Replaces forward-word
 ;; (global-set-key (kbd "M-f") 'forward-to-word)
-
-;; Theme overrides
-;; (set-face-attribute 'region nil :background "#999")
 
 ;; (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (setq scroll-bar-width 2)
